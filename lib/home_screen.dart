@@ -51,39 +51,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           ClipRRect(
                             child: Image.asset(
-                              "assets/demo_logo.png",
-                              height: 100,
-                              width: 100,
+                              "assets/my_location.png",
+                              height: 128,
+                              width: 128,
                             ),
                           )
                         ],
                       ),
                     ),
-                  ),
-                  ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.list_rounded,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Text("My Listings",
-                            style: GoogleFonts.mcLaren(
-                                textStyle: TextStyle(
-                                    color: Colors.white, fontSize: 18)))
-                      ],
-                    ),
-                    onTap: () {},
-                  ),
-                  Divider(
-                    height: 10.0,
-                    color: Colors.white,
-                    endIndent: 40.0,
-                    thickness: 1.0,
                   ),
                   ListTile(
                     title: Row(
@@ -105,8 +80,38 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => SignIn()));
+                    },
+                  ),
+                  Divider(
+                    height: 10.0,
+                    color: Colors.white,
+                    endIndent: 40.0,
+                    thickness: 1.0,
+                  ),
+                  ListTile(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.list_rounded,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Text("Show Info",
+                            style: GoogleFonts.mcLaren(
+                                textStyle: TextStyle(
+                                    color: Colors.white, fontSize: 18)))
+                      ],
+                    ),
+                    onTap: () {
                       Navigator.of(context)
-                          .pushReplacementNamed(SignIn.routeName);
+                          .pushReplacementNamed(ShowInfo.routeName);
                     },
                   ),
                 ],
@@ -115,54 +120,96 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         body: Container(
-            height: double.infinity,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Colors.white,
-                Colors.white,
-              ],
-            )),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    child: Text(
-                      "Sign Up",
-                      style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20)),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed(SignUp.routeName);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Color(0xff004080),
-                    ),
-                  ),
-                  SizedBox(height: 10.0,),
-                  ElevatedButton(
-                    child: Text(
-                      "Show Info",
-                      style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20)),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed(ShowInfo.routeName);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Color(0xff004080),
-                    ),
-                  ),
-                ],
+          height: double.infinity,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Colors.white,
+              Colors.blueGrey,
+            ],
+          )),
+          child: ListView(
+            children: [
+              // Container(
+              //   child: Row(
+              //     children: [
+              //       IconButton(
+              //           icon: Image.asset("assets/manager.png"),
+              //           iconSize: 80,
+              //           onPressed: () {}),
+              //       Container(
+              //         width: 200,
+              //         height: 60,
+              //         child: RaisedButton(
+              //           elevation: 5.0,
+              //           shape: RoundedRectangleBorder(
+              //               borderRadius: BorderRadius.circular(10.0),
+              //               side: BorderSide(color: Colors.black)),
+              //           child: Text(
+              //             "Sign Up as Sales Manager",
+              //             style: GoogleFonts.lato(
+              //                 textStyle: TextStyle(
+              //                     color: Colors.white,
+              //                     fontSize: 18,
+              //                     fontWeight: FontWeight.bold)),
+              //           ),
+              //           onPressed: () {
+              //             Navigator.push(
+              //                 context,
+              //                 MaterialPageRoute(
+              //                     builder: (BuildContext context) => SignUp()));
+              //           },
+              //           color: Color(0xff004080),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              Container(
+                child: Image.asset("assets/earth.png"),
               ),
-            )));
+              SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                        icon: Image.asset("assets/salesman.png"),
+                        iconSize: 80,
+                        onPressed: () {}),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.60,
+                      height: 60,
+                      child: RaisedButton(
+                        elevation: 5.0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            side: BorderSide(color: Colors.black)),
+                        child: Text(
+                          "Sign Up as Sales Representative",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.lato(
+                              textStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) => SignUp()));
+                        },
+                        color: Color(0xff004080),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

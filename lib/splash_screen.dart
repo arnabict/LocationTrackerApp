@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:location_tracker/home_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -39,11 +40,42 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-          // child: image,
-          child: SpinKitFadingCube(
-            color: Color(0xff004080),
-            size: 80.0,
+        body: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Colors.white,
+                  Colors.blueGrey,
+                ],
+              )),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                padding: EdgeInsets.all(40.0),
+                child: SpinKitFadingCube(
+                  color: Color(0xff004080),
+                  size: 80.0,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(40.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("Powered By", style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold))),
+                    SizedBox(height: 5.0,),
+                    Image.asset("assets/tri_logo.png", height: 93.0, width: 140.5,),
+                  ],
+                ),
+              ),
+            ],
           ),
         )
     );
