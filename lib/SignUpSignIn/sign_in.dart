@@ -7,8 +7,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:location_tracker/show_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// var district;
-// final storage = FlutterSecureStorage();
 //Global
 final TextEditingController emailController = TextEditingController();
 final TextEditingController passwordController = TextEditingController();
@@ -63,54 +61,16 @@ class _SignInState extends State<SignIn> {
     if (response.statusCode == 200) {
       var parsedJson = json.decode(response.body);
       myToken = parsedJson["access_token"];
-      print("********############");
-      print(response.body);
-      print(myToken);
-      print("********############");
-      // SharedPreferences myAccessToken = await SharedPreferences.getInstance();
-      // myAccessToken.setString("token", myToken);
       return Token.fromJson(json.decode(response.body));
     } else {
       throw Exception(response.body);
     }
   }
 
-  // Future<SignInRequest> createRequest(
-  //     String email, String password, String accessToken) async {
-  //   final http.Response response = await http.post(
-  //     Uri.parse("https://location.timetechri.co.uk/api/location/me"),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //       'Accept': 'application/json',
-  //       // 'Authorization': 'Bearer $token',
-  //     },
-  //     body: jsonEncode(<String, String>{
-  //       // 'phone': phone,
-  //       'email': email,
-  //       'password': password,
-  //       'token': accessToken,
-  //     }),
-  //   );
-  //
-  //   if (response.statusCode == 200) {
-  //     print(response.body);
-  //     return SignInRequest.fromJson(json.decode(response.body));
-  //   } else {
-  //     throw Exception(response.body);
-  //   }
-  // }
-
   final GlobalKey<FormState> _formKey = GlobalKey();
   bool passwordVisible;
   Future<Token> _futureToken;
   Future<SignInRequest> _futureSignInRequest;
-
-  // getAccessToken() async {
-  //   SharedPreferences myAccessToken = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     myToken = myAccessToken.getString("token");
-  //   });
-  // }
 
   @override
   void initState() {
@@ -144,20 +104,6 @@ class _SignInState extends State<SignIn> {
                   },
                 )
               ]));
-
-  // Future<String> attemptSignIn(
-  //     String email, String password, String accessToken) async {
-  //   var res = await http.post(
-  //       Uri.parse(
-  //         "https://location.timetechri.co.uk/api/location/me",
-  //       ),
-  //       body: {"email": email, "password": password, "token": accessToken});
-  //   if (res.statusCode == 200) {
-  //     print(res.body);
-  //     return res.body;
-  //   }
-  //   return null;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -225,11 +171,7 @@ class _SignInState extends State<SignIn> {
                             } else if (value.contains("@") &&
                                 value.contains(".com")) {
                               return null;
-                            }
-                            // else if (!regExp.hasMatch(value)) {
-                            //   return null;
-                            // }
-                            else
+                            } else
                               return "Enter email correctly";
                           },
                           onSaved: (value) {
@@ -285,23 +227,6 @@ class _SignInState extends State<SignIn> {
                               Navigator.of(context)
                                   .pushReplacementNamed(ShowInfo.routeName);
                             });
-                            // if (myToken != null) {
-                            //   setState(() {
-                            //     _futureSignInRequest = createRequest(
-                            //             emailController.text,
-                            //             passwordController.text,
-                            //             myToken)
-                            //         .then((value) => Navigator.of(context)
-                            //             .pushReplacementNamed(
-                            //                 ShowInfo.routeName));
-                            //   });
-                            // }
-                            // if (myToken != null) {
-                            //   print("Error");
-                            // } else {
-                            //   displayDialog(context, "Error Occurred!",
-                            //       "Could not authenticate");
-                            // }
                           },
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),

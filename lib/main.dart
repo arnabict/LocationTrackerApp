@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:location_tracker/SignUpSignIn/sign_up.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
 import 'package:location_tracker/account_creation.dart';
+import 'package:location_tracker/get_questions.dart';
 import 'package:location_tracker/google_map.dart';
 import 'package:location_tracker/home_screen.dart';
 import 'package:location_tracker/show_info.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         MyMap.routeName: (ctx) => MyMap(),
         AccountCreation.routeName: (ctx) => AccountCreation(),
         SubmissionSuccess.routeName: (ctx) => SubmissionSuccess(),
+        GetQuestions.routeName: (ctx) => GetQuestions(),
       },
     );
   }

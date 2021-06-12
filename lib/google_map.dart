@@ -13,6 +13,7 @@ class QuesAns {
   QuesAns({
     this.userId,
     this.stallName,
+    this.stallDes,
     this.latitude,
     this.longitude,
     this.updatedAt,
@@ -22,6 +23,7 @@ class QuesAns {
 
   String userId;
   String stallName;
+  String stallDes;
   String latitude;
   String longitude;
   DateTime updatedAt;
@@ -31,6 +33,7 @@ class QuesAns {
   factory QuesAns.fromJson(Map<String, dynamic> json) => QuesAns(
         userId: json["user_id"],
         stallName: json["stall_name"],
+        stallDes: json["stall_des"],
         latitude: json["latitude"],
         longitude: json["longitude"],
         updatedAt: DateTime.parse(json["updated_at"]),
@@ -40,7 +43,7 @@ class QuesAns {
 
   Map<String, dynamic> toJson() => {
         "user_id": userId,
-        "stall_name": stallName,
+        "stall_des": stallDes,
         "latitude": latitude,
         "longitude": longitude,
         "updated_at": updatedAt.toIso8601String(),
@@ -61,8 +64,13 @@ class _MyMapState extends State<MyMap> {
   Set<Marker> _markers = {};
   BitmapDescriptor mapMarker;
 
-  Future<QuesAns> submitRequest(String userId, String stallName,
-      String latitude, String longitude, String accessToken) async {
+  Future<QuesAns> submitRequest(
+      String userId,
+      String stallName,
+      String stallDes,
+      String latitude,
+      String longitude,
+      String accessToken) async {
     final http.Response response = await http.post(
       Uri.parse(
           "https://location.timetechri.co.uk/api/location/question/info/submit"),
@@ -73,6 +81,7 @@ class _MyMapState extends State<MyMap> {
       body: jsonEncode(<String, dynamic>{
         'user_id': userId,
         'stall_name': stallName,
+        'stall_des': stallDes,
         'latitude': latitude,
         'longitude': longitude,
         'token': accessToken,
@@ -90,6 +99,13 @@ class _MyMapState extends State<MyMap> {
   void initState() {
     super.initState();
     setCustomMarker();
+  }
+
+  @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   void setCustomMarker() async {
@@ -115,14 +131,14 @@ class _MyMapState extends State<MyMap> {
             style: GoogleFonts.mcLaren(
                 textStyle: TextStyle(
                     color: Colors.white,
-                    fontSize: 22,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold))),
         actions: [
           FlatButton(
             color: Colors.green,
             child: Row(
               children: [
-                Text("SUBMIT", style: GoogleFonts.lato(color: Colors.white)),
+                Text("SUBMIT", style: GoogleFonts.pacifico(color: Colors.white)),
                 SizedBox(width: 5.0),
                 Icon(Icons.app_registration)
               ],
@@ -130,20 +146,23 @@ class _MyMapState extends State<MyMap> {
             textColor: Colors.white,
             onPressed: () {
               setState(() {
+                print(shopNameController.text);
+                print(shopDetailsController.text);
                 futureResponse = submitRequest(
                     myUserId.toString(),
                     shopNameController.text,
+                    shopDetailsController.text,
                     latDouble.toString(),
                     longDouble.toString(),
                     myToken);
               });
-              futureResponse
-                  .then((value) => Future.delayed(Duration(seconds: 5), () {
-                        setState(() {
-                          Navigator.of(context).pushReplacementNamed(
-                              SubmissionSuccess.routeName);
-                        });
-                      }));
+              futureResponse.then((value) =>
+                  Future.delayed(Duration(milliseconds: 2500), () {
+                    setState(() {
+                      Navigator.of(context)
+                          .pushReplacementNamed(SubmissionSuccess.routeName);
+                    });
+                  }));
             },
           )
         ],

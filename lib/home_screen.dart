@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location_tracker/SignUpSignIn/sign_up.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
-import 'package:location_tracker/show_info.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home_screen';
@@ -17,11 +16,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Location Tracker",
-              style: GoogleFonts.mcLaren(
+              style: GoogleFonts.pacifico(
                   textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold))),
+                color: Colors.white,
+                fontSize: 22,
+              ))),
           centerTitle: true,
         ),
         drawer: Container(
@@ -92,28 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     endIndent: 40.0,
                     thickness: 1.0,
                   ),
-                  ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.list_rounded,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Text("Show Info",
-                            style: GoogleFonts.mcLaren(
-                                textStyle: TextStyle(
-                                    color: Colors.white, fontSize: 18)))
-                      ],
-                    ),
-                    onTap: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed(ShowInfo.routeName);
-                    },
-                  ),
                 ],
               ),
             ),
@@ -132,41 +109,6 @@ class _HomeScreenState extends State<HomeScreen> {
           )),
           child: ListView(
             children: [
-              // Container(
-              //   child: Row(
-              //     children: [
-              //       IconButton(
-              //           icon: Image.asset("assets/manager.png"),
-              //           iconSize: 80,
-              //           onPressed: () {}),
-              //       Container(
-              //         width: 200,
-              //         height: 60,
-              //         child: RaisedButton(
-              //           elevation: 5.0,
-              //           shape: RoundedRectangleBorder(
-              //               borderRadius: BorderRadius.circular(10.0),
-              //               side: BorderSide(color: Colors.black)),
-              //           child: Text(
-              //             "Sign Up as Sales Manager",
-              //             style: GoogleFonts.lato(
-              //                 textStyle: TextStyle(
-              //                     color: Colors.white,
-              //                     fontSize: 18,
-              //                     fontWeight: FontWeight.bold)),
-              //           ),
-              //           onPressed: () {
-              //             Navigator.push(
-              //                 context,
-              //                 MaterialPageRoute(
-              //                     builder: (BuildContext context) => SignUp()));
-              //           },
-              //           color: Color(0xff004080),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
               Container(
                 child: Image.asset("assets/earth.png"),
               ),

@@ -333,6 +333,13 @@ class _SignUpState extends State<SignUp> {
   }
 
   @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       // key: _scaffoldKey,
@@ -539,7 +546,7 @@ class _SignUpState extends State<SignUp> {
                         //Submit
                         RaisedButton(
                           elevation: 5.0,
-                          child: Text("SIGN Up",
+                          child: Text("SIGN UP",
                               style: GoogleFonts.lato(
                                   textStyle: TextStyle(
                                       fontWeight: FontWeight.bold,

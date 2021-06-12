@@ -45,14 +45,15 @@ class SubmissionSuccess extends StatelessWidget {
               ),
               RaisedButton(
                 elevation: 5.0,
-                child: Text("Sign Out",
+                child: Text("SIGN OUT",
                     style: GoogleFonts.lato(
                         textStyle: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16))),
                 onPressed: () {
-                  // storage.deleteAll();
-                  Navigator.of(context)
-                      .pushReplacementNamed(HomeScreen.routeName);
+                  Future.delayed(Duration(milliseconds: 2500), () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(HomeScreen.routeName);
+                  });
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),

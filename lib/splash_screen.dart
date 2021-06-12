@@ -41,6 +41,8 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
+          height: MediaQuery.of(context).size.height * 1.00,
+          width: MediaQuery.of(context).size.width * 1.00,
           decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topRight,
@@ -55,9 +57,9 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Container(
                 padding: EdgeInsets.all(40.0),
-                child: SpinKitFadingCube(
+                child: SpinKitDoubleBounce(
                   color: Color(0xff004080),
-                  size: 80.0,
+                  size: 64.0,
                 ),
               ),
               Container(
@@ -65,10 +67,10 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text("Powered By", style: GoogleFonts.lato(
+                    Text("POWERED BY", style: GoogleFonts.lato(
                         textStyle: TextStyle(
                             color: Colors.black,
-                            fontSize: 20,
+                            fontSize: 12,
                             fontWeight: FontWeight.bold))),
                     SizedBox(height: 5.0,),
                     Image.asset("assets/tri_logo.png", height: 93.0, width: 140.5,),

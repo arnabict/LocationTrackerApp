@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:location_tracker/get_questions.dart';
 import 'package:location_tracker/google_map.dart';
 import 'package:location_tracker/home_screen.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
@@ -60,7 +61,8 @@ class SignInRequest {
 class _ShowInfoState extends State<ShowInfo> {
   String latitudeData = "";
   String longitudeData = "";
-  bool validate = false;
+  bool validateShop = false;
+  bool validateShopDetails = false;
 
   Future<SignInRequest> _futureUserData;
 
@@ -84,7 +86,7 @@ class _ShowInfoState extends State<ShowInfo> {
       var parsedJson = json.decode(response.body);
       myUserId = parsedJson["id"];
       print(response.body);
-      print("MY USER ID:" + myUserId.toString());
+      print("MY USER ID: " + myUserId.toString());
       return SignInRequest.fromJson(json.decode(response.body));
     } else {
       throw Exception(response.body);
@@ -92,24 +94,29 @@ class _ShowInfoState extends State<ShowInfo> {
   }
 
   @override
-  void dispose() {
-    // text.dispose();
-    super.dispose();
-  }
-
-  @override
   void initState() {
     super.initState();
-    // questionWidget();
-    Future.delayed(const Duration(seconds: 10), () {
+    Future.delayed(Duration(seconds: 5), () {
       setState(() {
         _futureUserData = createRequestWithToken(
             emailController.text, passwordController.text, myToken);
       });
     });
     getCurrentLocation();
-    // getDistrict();
-    // futureQuestionList = getRequest();
+  }
+
+  @override
+  void dispose() {
+    shopNameController.dispose();
+    shopDetailsController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   getCurrentLocation() async {
@@ -126,102 +133,49 @@ class _ShowInfoState extends State<ShowInfo> {
     });
   }
 
-  // Widget questionWidget() {
-  //   if (res == null) {
-  //     return Container(
-  //       padding: EdgeInsets.all(10.0),
-  //       child: CircularProgressIndicator(
-  //         backgroundColor: Colors.blueGrey,
-  //         valueColor: AlwaysStoppedAnimation(Color(0xff004080)),
-  //         strokeWidth: 5,
-  //       ),
-  //     );
-  //   } else if (res != null) {
-  //     return ListView.builder(
-  //       padding: EdgeInsets.all(15.0),
-  //       scrollDirection: Axis.vertical,
-  //       shrinkWrap: true,
-  //       physics: ClampingScrollPhysics(),
-  //       itemCount: res == null ? 0 : res.length,
-  //       itemBuilder: (BuildContext context, int index) {
-  //         return Card(
-  //           elevation: 5.0,
-  //           shape: RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.circular(5.0),
-  //           ),
-  //           child: Container(
-  //             decoration: BoxDecoration(
-  //                 borderRadius: BorderRadius.all(
-  //                   Radius.circular(5.0),
-  //                 ),
-  //                 gradient: LinearGradient(colors: [
-  //                   Colors.white,
-  //                   Colors.indigoAccent,
-  //                 ])),
-  //             padding: EdgeInsets.all(10.0),
-  //             child: Column(
-  //               mainAxisAlignment: MainAxisAlignment.center,
-  //               children: [
-  //                 Text(
-  //                   res[index]["name"],
-  //                   style: GoogleFonts.lato(
-  //                       textStyle: TextStyle(
-  //                           fontWeight: FontWeight.bold, fontSize: 18)),
-  //                   textAlign: TextAlign.center,
-  //                 ),
-  //                 TextField(
-  //                   controller: text,
-  //                   style: GoogleFonts.lato(fontSize: 18, color: Colors.black),
-  //                   decoration: InputDecoration(
-  //                       errorText: validate ? "Enter required info" : null,
-  //                       filled: true,
-  //                       fillColor: Colors.white,
-  //                       contentPadding: const EdgeInsets.all(10.0),
-  //                       focusedBorder: OutlineInputBorder(
-  //                         borderSide:
-  //                             BorderSide(color: Color(0xff004080), width: 3.0),
-  //                         borderRadius: BorderRadius.circular(5),
-  //                       ),
-  //                       enabledBorder: OutlineInputBorder(
-  //                           borderSide: BorderSide(
-  //                               color: Color(0xff004080), width: 3.0),
-  //                           borderRadius: BorderRadius.circular(5))),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         );
-  //       },
-  //     );
-  //   }
-  //   return null;
-  // }
-
   Widget nextButton() {
     if (latitudeData.isNotEmpty && longitudeData.isNotEmpty) {
-      return RaisedButton(
-        elevation: 5.0,
-        child: Text("NEXT",
-            style: GoogleFonts.lato(textStyle: TextStyle(fontSize: 16))),
+      return FlatButton(
+        color: Colors.green,
+        child: Row(
+          children: [
+            Text("NEXT", style: GoogleFonts.pacifico(color: Colors.white)),
+            SizedBox(width: 5.0),
+            Icon(Icons.navigate_next)
+          ],
+        ),
+        textColor: Colors.white,
         onPressed: () {
           setState(() {
-            // text.text.isEmpty ? validate = true : validate = false;
-            // if (text.text.isNotEmpty) {
-            Navigator.of(context).pushReplacementNamed(MyMap.routeName);
-            // }
+            if (shopNameController.text.isEmpty) {
+              validateShop = true;
+            }
+            if (shopDetailsController.text.isEmpty) {
+              validateShopDetails = true;
+            }
+            if (shopNameController.text.isNotEmpty &&
+                shopDetailsController.text.isNotEmpty) {
+              validateShop = false;
+              validateShopDetails = false;
+              Navigator.of(context)
+                  .pushReplacementNamed(GetQuestions.routeName);
+            }
+            // shopNameController.text.isEmpty
+            //     ? validateShop = true
+            //     : validateShop = false;
+            // shopDetailsController.text.isEmpty
+            //     ? validateShopDetails = true
+            //     : validateShopDetails = false;
           });
         },
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        color: Color(0xff004080),
-        textColor: Colors.white,
       );
     } else
-      return CircularProgressIndicator(
-        backgroundColor: Colors.blueGrey,
-        valueColor: AlwaysStoppedAnimation(Color(0xff004080)),
-        strokeWidth: 5,
+      return Center(
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.blueGrey,
+          valueColor: AlwaysStoppedAnimation(Color(0xff004080)),
+          strokeWidth: 5,
+        ),
       );
   }
 
@@ -246,24 +200,10 @@ class _ShowInfoState extends State<ShowInfo> {
             style: GoogleFonts.mcLaren(
                 textStyle: TextStyle(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: 18,
             ))),
         actions: [
-          FlatButton(
-            color: Colors.red,
-            child: Row(
-              children: [
-                Text("SIGN OUT", style: GoogleFonts.lato(color: Colors.white)),
-                SizedBox(width: 5.0),
-                Icon(Icons.login)
-              ],
-            ),
-            textColor: Colors.white,
-            onPressed: () {
-              storage.deleteAll();
-              Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
-            },
-          )
+          nextButton(),
         ],
       ),
       body: Container(
@@ -287,8 +227,7 @@ class _ShowInfoState extends State<ShowInfo> {
                       children: [
                         Text(
                           "Enter the name of the shop:",
-                          style: GoogleFonts.mcLaren(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                          style: GoogleFonts.mcLaren(fontSize: 16),
                         ),
                       ],
                     ),
@@ -297,6 +236,14 @@ class _ShowInfoState extends State<ShowInfo> {
                       style:
                           GoogleFonts.lato(fontSize: 18, color: Colors.black),
                       decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              shopNameController.clear();
+                            },
+                            icon: Icon(Icons.cancel_outlined),
+                          ),
+                          errorText:
+                              validateShop ? "Shop name can't be empty" : null,
                           filled: true,
                           fillColor: Colors.white,
                           contentPadding: const EdgeInsets.all(10.0),
@@ -306,8 +253,8 @@ class _ShowInfoState extends State<ShowInfo> {
                             borderRadius: BorderRadius.circular(5),
                           ),
                           enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xff004080), width: 3.0),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 3.0),
                               borderRadius: BorderRadius.circular(5))),
                     ),
                     SizedBox(
@@ -317,19 +264,27 @@ class _ShowInfoState extends State<ShowInfo> {
                       children: [
                         Text(
                           "Enter details about the shop:",
-                          style: GoogleFonts.mcLaren(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                          style: GoogleFonts.mcLaren(fontSize: 16),
                         ),
                       ],
                     ),
                     TextField(
                       controller: shopDetailsController,
-                      maxLines: 8,
+                      maxLines: 6,
                       maxLength: 1000,
                       keyboardType: TextInputType.multiline,
                       style:
                           GoogleFonts.lato(fontSize: 18, color: Colors.black),
                       decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              shopDetailsController.clear();
+                            },
+                            icon: Icon(Icons.cancel_outlined),
+                          ),
+                          errorText: validateShopDetails
+                              ? "Shop Details can't be empty"
+                              : null,
                           filled: true,
                           fillColor: Colors.white,
                           contentPadding: const EdgeInsets.all(10.0),
@@ -339,8 +294,8 @@ class _ShowInfoState extends State<ShowInfo> {
                             borderRadius: BorderRadius.circular(5),
                           ),
                           enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xff004080), width: 3.0),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 3.0),
                               borderRadius: BorderRadius.circular(5))),
                     ),
                   ],
@@ -363,57 +318,65 @@ class _ShowInfoState extends State<ShowInfo> {
               // ),
               Container(
                 padding: EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    Text(
-                      "My Position: ",
-                      style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                child: Card(
+                  child: Container(
+                    color: Colors.grey[600],
+                    padding: EdgeInsets.all(20.0),
+                    child: Column(
                       children: [
                         Text(
-                          "Latitude: ",
-                          style: GoogleFonts.lato(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                          "My Position: ",
+                          style: GoogleFonts.mcLaren(
+                              color: Colors.white,
+                              textStyle: TextStyle(fontSize: 16)),
                         ),
-                        Text(
-                          latitudeData,
-                          style: GoogleFonts.lato(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              textStyle: TextStyle(color: Color(0xff004080))),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Latitude: ",
+                              style: GoogleFonts.lato(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              latitudeData,
+                              style: GoogleFonts.lato(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  textStyle:
+                                      TextStyle(color: Color(0xff004080))),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Longitude: ",
+                              style: GoogleFonts.lato(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              longitudeData,
+                              style: GoogleFonts.lato(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  textStyle:
+                                      TextStyle(color: Color(0xff004080))),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Longitude: ",
-                          style: GoogleFonts.lato(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          longitudeData,
-                          style: GoogleFonts.lato(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              textStyle: TextStyle(color: Color(0xff004080))),
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
               ),
               SizedBox(
                 height: 40.0,
               ),
-              nextButton(),
+              // nextButton(),
             ],
           ),
         ),
