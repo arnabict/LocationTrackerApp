@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
+import 'package:location_tracker/home_screen.dart';
 
 class AccountCreation extends StatelessWidget {
   static const routeName = '/account_creation';
@@ -9,9 +10,23 @@ class AccountCreation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sign Up", style: GoogleFonts.lato()),
-        centerTitle: true,
+        title: Text("Account Creation", style: GoogleFonts.lato()),
         automaticallyImplyLeading: false,
+        actions: [
+          FlatButton(
+            color: Colors.teal,
+            child: Row(
+              children: [
+                Text("Home", style: GoogleFonts.pacifico(color: Colors.white)),
+                SizedBox(width: 5.0),
+                Icon(Icons.home_outlined)
+              ],
+            ),
+            onPressed: () {
+              Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+            },
+          )
+        ],
       ),
       body: Container(
           height: double.infinity,

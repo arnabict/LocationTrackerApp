@@ -138,7 +138,8 @@ class _MyMapState extends State<MyMap> {
             color: Colors.green,
             child: Row(
               children: [
-                Text("SUBMIT", style: GoogleFonts.pacifico(color: Colors.white)),
+                Text("Submit",
+                    style: GoogleFonts.pacifico(color: Colors.white)),
                 SizedBox(width: 5.0),
                 Icon(Icons.app_registration)
               ],

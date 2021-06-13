@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location_tracker/SignUpSignIn/sign_up.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
+import 'package:location_tracker/account_creation.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home_screen';

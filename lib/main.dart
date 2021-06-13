@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:location_tracker/SignUpSignIn/sign_up.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
 import 'package:location_tracker/account_creation.dart';
+import 'package:location_tracker/check_internet.dart';
 import 'package:location_tracker/get_questions.dart';
 import 'package:location_tracker/google_map.dart';
 import 'package:location_tracker/home_screen.dart';
@@ -17,8 +18,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Location Tracker",
       theme: ThemeData(primaryColor: Color(0xff004080)),
-      home: SplashScreen(),
+      home: CheckInternet(),
       routes: {
+        SplashScreen.routeName: (ctx) => SplashScreen(),
         HomeScreen.routeName: (ctx) => HomeScreen(),
         SignUp.routeName: (ctx) => SignUp(),
         SignIn.routeName: (ctx) => SignIn(),

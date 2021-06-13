@@ -234,7 +234,7 @@ class _ShowInfoState extends State<ShowInfo> {
                     TextField(
                       controller: shopNameController,
                       style:
-                          GoogleFonts.lato(fontSize: 18, color: Colors.black),
+                          GoogleFonts.lato(fontSize: 16, color: Colors.black),
                       decoration: InputDecoration(
                           suffixIcon: IconButton(
                             onPressed: () {
@@ -274,7 +274,7 @@ class _ShowInfoState extends State<ShowInfo> {
                       maxLength: 1000,
                       keyboardType: TextInputType.multiline,
                       style:
-                          GoogleFonts.lato(fontSize: 18, color: Colors.black),
+                          GoogleFonts.lato(fontSize: 16, color: Colors.black),
                       decoration: InputDecoration(
                           suffixIcon: IconButton(
                             onPressed: () {

@@ -7,6 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
+  static const routeName = '/splash_screen';
 }
 
 class _SplashScreenState extends State<SplashScreen> {
@@ -41,45 +42,51 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-          height: MediaQuery.of(context).size.height * 1.00,
-          width: MediaQuery.of(context).size.width * 1.00,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Colors.white,
-                  Colors.blueGrey,
-                ],
-              )),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                padding: EdgeInsets.all(40.0),
-                child: SpinKitDoubleBounce(
-                  color: Color(0xff004080),
-                  size: 64.0,
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(40.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text("POWERED BY", style: GoogleFonts.lato(
+      height: MediaQuery.of(context).size.height * 1.00,
+      width: MediaQuery.of(context).size.width * 1.00,
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+        begin: Alignment.topRight,
+        end: Alignment.bottomLeft,
+        colors: [
+          Colors.white,
+          Colors.blueGrey,
+        ],
+      )),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            padding: EdgeInsets.all(40.0),
+            child: SpinKitDoubleBounce(
+              color: Color(0xff004080),
+              size: 64.0,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(40.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text("POWERED BY",
+                    style: GoogleFonts.lato(
                         textStyle: TextStyle(
                             color: Colors.black,
                             fontSize: 12,
                             fontWeight: FontWeight.bold))),
-                    SizedBox(height: 5.0,),
-                    Image.asset("assets/tri_logo.png", height: 93.0, width: 140.5,),
-                  ],
+                SizedBox(
+                  height: 5.0,
                 ),
-              ),
-            ],
+                Image.asset(
+                  "assets/tri_logo.png",
+                  height: 93.0,
+                  width: 140.5,
+                ),
+              ],
+            ),
           ),
-        )
-    );
+        ],
+      ),
+    ));
   }
 }

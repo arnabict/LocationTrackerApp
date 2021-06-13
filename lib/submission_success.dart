@@ -10,8 +10,7 @@ class SubmissionSuccess extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sign Up", style: GoogleFonts.lato()),
-        centerTitle: true,
+        title: Text("Successful Submission", style: GoogleFonts.lato()),
         automaticallyImplyLeading: false,
       ),
       body: Container(

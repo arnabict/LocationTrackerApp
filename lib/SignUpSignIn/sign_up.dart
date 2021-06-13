@@ -580,13 +580,6 @@ class _SignUpState extends State<SignUp> {
                             if (!form.validate()) {
                               return displayDialog(context, "Error Occurred!",
                                   "Enter data correctly.");
-                            } else {
-                              Future.delayed(Duration(seconds: 5), () {
-                                setState(() {
-                                  displayDialog(context, "Error Occurred!",
-                                      "Email already exists.");
-                                });
-                              });
                             }
                           },
                           shape: RoundedRectangleBorder(

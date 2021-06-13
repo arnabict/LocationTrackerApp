@@ -281,28 +281,6 @@ class _GetQuestionsState extends State<GetQuestions> {
                                   borderRadius: BorderRadius.circular(5))),
                         ));
                       });
-                      // print(stringListReturnedFromApiCall);
-                      // answerControllers = [
-                      //   for (int i = 0; i < myQuestionList.length; i++)
-                      //     TextEditingController()
-                      // ];
-                      // print(myQuestionList[index]["name"].runtimeType);
-                      // answerControllers
-                      //     .map((e) => print(answerControllers.indexOf(e)))
-                      //     .toList();
-                      // collectiveIds = myQuestionList[index]["id"];
-                      // collectiveAns = answerControllers[index].text;
-                      // parsedJsonId.add(myQuestionList[index]["id"]);
-                      // print(myQuestionList[index]["id"].runtimeType);
-                      // print(answerControllers[index].text.runtimeType);
-                      // parsedJsonId = [myQuestionList[index]["id"]];
-                      // parsedJsonId[myQuestionList.length] = myQuestionList[index]["id"];
-                      // print(parsedJsonId);
-                      // parsedJsonAnswers.add(answerControllers[index].text);
-                      // print(parsedJsonAnswers);
-                      // validationVar = answerControllers[index].text.isEmpty
-                      //     ? validateAnswers = true
-                      //     : validateAnswers = false;
                       return Card(
                         elevation: 10.0,
                         shape: RoundedRectangleBorder(
@@ -364,7 +342,7 @@ class _GetQuestionsState extends State<GetQuestions> {
                                       futureSubmitAnswers.then(
                                           (value) => showSnackBar(context));
                                     });
-                                  })
+                                  }),
                             ],
                           ),
                         ),
