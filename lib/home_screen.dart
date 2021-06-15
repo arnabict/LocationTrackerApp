@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location_tracker/SignUpSignIn/sign_up.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
-import 'package:location_tracker/account_creation.dart';
+import 'package:location_tracker/show_info.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home_screen';
@@ -10,6 +10,26 @@ class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
+
+void displayDialogSignIn(context, title, text) => showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+            title: Text(
+              title,
+              style: GoogleFonts.lato(),
+            ),
+            content: Text(
+              text,
+              style: GoogleFonts.lato(),
+            ),
+            actions: [
+              FlatButton(
+                child: Text("Okay", style: GoogleFonts.lato()),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ]));
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
@@ -84,6 +104,42 @@ class _HomeScreenState extends State<HomeScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) => SignIn()));
+                    },
+                  ),
+                  Divider(
+                    height: 10.0,
+                    color: Colors.white,
+                    endIndent: 40.0,
+                    thickness: 1.0,
+                  ),
+                  ListTile(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.dashboard_rounded,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Text(
+                          "My Dashboard",
+                          style: GoogleFonts.mcLaren(
+                              textStyle:
+                                  TextStyle(color: Colors.white, fontSize: 18)),
+                        )
+                      ],
+                    ),
+                    onTap: () {
+                      if (myToken != null) {
+                        return Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => ShowInfo()));
+                      } else
+                        displayDialogSignIn(
+                            context, "You are not signed in!", "Please sign in.");
                     },
                   ),
                   Divider(

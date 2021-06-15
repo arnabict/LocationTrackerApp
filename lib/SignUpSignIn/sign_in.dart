@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_show_info.dart';
 import 'package:location_tracker/SignUpSignIn/sign_up.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:location_tracker/show_info.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 //Global
 final TextEditingController emailController = TextEditingController();
@@ -219,14 +218,21 @@ class _SignInState extends State<SignIn> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16))),
                           onPressed: () async {
-                            setState(() {
-                              _futureToken = createToken(
-                                emailController.text,
-                                passwordController.text,
-                              );
-                              Navigator.of(context)
-                                  .pushReplacementNamed(ShowInfo.routeName);
-                            });
+                            final form = _formKey.currentState;
+                            if (form.validate()) {
+                              setState(() {
+                                _futureToken = createToken(
+                                  emailController.text,
+                                  passwordController.text,
+                                );
+                                _futureToken.then((value) =>
+                                    Navigator.of(context).pushReplacementNamed(
+                                        LoadingScreenShowInfo.routeName));
+                              });
+                            } else {
+                              displayDialog(context, "Error Occurred",
+                                  "No account was found matching that email address and password!");
+                            }
                           },
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),

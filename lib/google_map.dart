@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_submission.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
 import 'package:location_tracker/show_info.dart';
 import 'package:http/http.dart' as http;
-import 'package:location_tracker/submission_success.dart';
 
 // API Key in Google Cloud Platform
 
@@ -135,16 +135,16 @@ class _MyMapState extends State<MyMap> {
                     fontWeight: FontWeight.bold))),
         actions: [
           FlatButton(
-            color: Colors.green,
+            color: Colors.teal,
             child: Row(
               children: [
-                Text("Submit",
-                    style: GoogleFonts.pacifico(color: Colors.white)),
+                Text("SUBMIT",
+                    style: GoogleFonts.comicNeue(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
                 SizedBox(width: 5.0),
                 Icon(Icons.app_registration)
               ],
             ),
-            textColor: Colors.white,
             onPressed: () {
               setState(() {
                 print(shopNameController.text);
@@ -157,13 +157,8 @@ class _MyMapState extends State<MyMap> {
                     longDouble.toString(),
                     myToken);
               });
-              futureResponse.then((value) =>
-                  Future.delayed(Duration(milliseconds: 2500), () {
-                    setState(() {
-                      Navigator.of(context)
-                          .pushReplacementNamed(SubmissionSuccess.routeName);
-                    });
-                  }));
+              futureResponse.then((value) => Navigator.of(context)
+                  .pushReplacementNamed(LoadingScreenSubmission.routeName));
             },
           )
         ],

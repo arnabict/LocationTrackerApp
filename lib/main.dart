@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_get_map.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_get_questions.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_show_info.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_submission.dart';
 import 'package:location_tracker/SignUpSignIn/sign_up.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
 import 'package:location_tracker/account_creation.dart';
@@ -29,6 +33,10 @@ class MyApp extends StatelessWidget {
         AccountCreation.routeName: (ctx) => AccountCreation(),
         SubmissionSuccess.routeName: (ctx) => SubmissionSuccess(),
         GetQuestions.routeName: (ctx) => GetQuestions(),
+        LoadingScreenShowInfo.routeName: (ctx) => LoadingScreenShowInfo(),
+        LoadingScreenGetQuestions.routeName: (ctx) => LoadingScreenGetQuestions(),
+        LoadingScreenGetMap.routeName: (ctx) => LoadingScreenGetMap(),
+        LoadingScreenSubmission.routeName: (ctx) => LoadingScreenSubmission(),
       },
     );
   }

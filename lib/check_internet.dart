@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:location_tracker/home_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:location_tracker/splash_screen.dart';
@@ -57,26 +56,16 @@ class _CheckInternetState extends State<CheckInternet> {
           builder: (BuildContext context, snapshot) {
             if (snapshot.data == null) {
               return Center(
-                child: Text(
-                  "Connecting...",
-                  style: GoogleFonts.mcLaren(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              );
+                  child: SpinKitPouringHourglass(
+                color: Color(0xff004080),
+                size: 64.0,
+              ));
             } else if (snapshot.data == true) {
               return Center(
-                child: Text(
-                  "Connecting...",
-                  style: GoogleFonts.mcLaren(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              );
+                  child: SpinKitPouringHourglass(
+                color: Color(0xff004080),
+                size: 100.0,
+              ));
             } else {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,

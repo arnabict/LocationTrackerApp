@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:location_tracker/SignUpSignIn/sign_in.dart';
 import 'package:location_tracker/home_screen.dart';
 
 class SubmissionSuccess extends StatelessWidget {
@@ -44,20 +43,18 @@ class SubmissionSuccess extends StatelessWidget {
               ),
               RaisedButton(
                 elevation: 5.0,
-                child: Text("SIGN OUT",
+                child: Text("HOME",
                     style: GoogleFonts.lato(
                         textStyle: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16))),
                 onPressed: () {
-                  Future.delayed(Duration(milliseconds: 2500), () {
-                    Navigator.of(context)
-                        .pushReplacementNamed(HomeScreen.routeName);
-                  });
+                  Navigator.of(context)
+                      .pushReplacementNamed(HomeScreen.routeName);
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
                 ),
-                color: Colors.red,
+                color: Color(0xff004080),
                 textColor: Colors.white,
               )
             ],

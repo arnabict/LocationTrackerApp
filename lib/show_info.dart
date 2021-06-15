@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:location_tracker/get_questions.dart';
-import 'package:location_tracker/google_map.dart';
-import 'package:location_tracker/home_screen.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_get_questions.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -81,7 +79,7 @@ class _ShowInfoState extends State<ShowInfo> {
       }),
     );
 
-    print(myToken);
+    print("MY TOKEN: " + myToken.toString());
     if (response.statusCode == 200) {
       var parsedJson = json.decode(response.body);
       myUserId = parsedJson["id"];
@@ -96,20 +94,15 @@ class _ShowInfoState extends State<ShowInfo> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 5), () {
+    shopNameController.clear();
+    shopDetailsController.clear();
+    Future.delayed(Duration(milliseconds: 2500), () {
       setState(() {
         _futureUserData = createRequestWithToken(
             emailController.text, passwordController.text, myToken);
       });
     });
     getCurrentLocation();
-  }
-
-  @override
-  void dispose() {
-    shopNameController.dispose();
-    shopDetailsController.dispose();
-    super.dispose();
   }
 
   @override
@@ -136,15 +129,16 @@ class _ShowInfoState extends State<ShowInfo> {
   Widget nextButton() {
     if (latitudeData.isNotEmpty && longitudeData.isNotEmpty) {
       return FlatButton(
-        color: Colors.green,
+        color: Colors.teal,
         child: Row(
           children: [
-            Text("NEXT", style: GoogleFonts.pacifico(color: Colors.white)),
+            Text("NEXT",
+                style: GoogleFonts.comicNeue(
+                    color: Colors.white, fontWeight: FontWeight.bold)),
             SizedBox(width: 5.0),
             Icon(Icons.navigate_next)
           ],
         ),
-        textColor: Colors.white,
         onPressed: () {
           setState(() {
             if (shopNameController.text.isEmpty) {
@@ -158,7 +152,7 @@ class _ShowInfoState extends State<ShowInfo> {
               validateShop = false;
               validateShopDetails = false;
               Navigator.of(context)
-                  .pushReplacementNamed(GetQuestions.routeName);
+                  .pushReplacementNamed(LoadingScreenGetQuestions.routeName);
             }
             // shopNameController.text.isEmpty
             //     ? validateShop = true

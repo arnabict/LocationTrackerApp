@@ -23,12 +23,6 @@ class _SplashScreenState extends State<SplashScreen> {
     startTime();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    precacheImage(image.image, context);
-  }
-
   startTime() async {
     var _duration = new Duration(seconds: 3);
     return new Timer(_duration, navigationPage);
@@ -58,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
           Container(
             padding: EdgeInsets.all(40.0),
-            child: SpinKitDoubleBounce(
+            child: SpinKitFadingCube(
               color: Color(0xff004080),
               size: 64.0,
             ),

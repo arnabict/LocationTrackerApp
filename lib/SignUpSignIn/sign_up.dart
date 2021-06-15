@@ -1,18 +1,13 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:location_tracker/account_creation.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 //Global
 var currentSelectedValue;
 var currentSelectedValueDistrict;
-// final storage = FlutterSecureStorage();
-// final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 Future<SignUpRequest> createRequest(
     dynamic userRole,

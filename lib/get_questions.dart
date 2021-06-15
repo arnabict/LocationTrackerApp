@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:location_tracker/SignUpSignIn/sign_in.dart';
-import 'package:location_tracker/google_map.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_get_map.dart';
 import 'package:location_tracker/show_info.dart';
 
 class GetQuestions extends StatefulWidget {
@@ -63,36 +61,6 @@ class _GetQuestionsState extends State<GetQuestions> {
   bool submissionColor = false;
   bool submissionStatus = false;
   bool validate = false;
-
-  // final TextEditingController ansController = TextEditingController();
-
-  // Widget ansTextField() {
-  //   final TextEditingController ansController = TextEditingController();
-  //   answerControllers.add(ansController);
-  //   return TextField(
-  //     controller: ansController,
-  //     maxLines: 2,
-  //     keyboardType: TextInputType.multiline,
-  //     style: GoogleFonts.lato(fontSize: 18, color: Colors.black),
-  //     decoration: InputDecoration(
-  //         // errorText: validateAnswers
-  //         //     ? "Please answer the question"
-  //         //     : null,
-  //         filled: true,
-  //         fillColor: Colors.white,
-  //         contentPadding: const EdgeInsets.all(10.0),
-  //         focusedBorder: OutlineInputBorder(
-  //           borderSide: BorderSide(color: Color(0xff004080), width: 3.0),
-  //           borderRadius: BorderRadius.circular(5),
-  //         ),
-  //         enabledBorder: OutlineInputBorder(
-  //             borderSide: BorderSide(color: Color(0xff004080), width: 3.0),
-  //             borderRadius: BorderRadius.circular(5))),
-  //   );
-  // }
-
-  // bool validateAnswers = false;
-  // var validationVar;
 
   @override
   void initState() {
@@ -154,19 +122,21 @@ class _GetQuestionsState extends State<GetQuestions> {
   Widget nextButton() {
     if (myQuestionList != null) {
       return FlatButton(
-        color: Colors.green,
+        color: Colors.teal,
         child: Row(
           children: [
-            Text("NEXT", style: GoogleFonts.pacifico(color: Colors.white)),
+            Text("NEXT",
+                style: GoogleFonts.comicNeue(
+                    color: Colors.white, fontWeight: FontWeight.bold)),
             SizedBox(width: 5.0),
             Icon(Icons.navigate_next)
           ],
         ),
-        textColor: Colors.white,
         onPressed: () {
           // print(textEditingController);
           setState(() {
-            Navigator.of(context).pushReplacementNamed(MyMap.routeName);
+            Navigator.of(context)
+                .pushReplacementNamed(LoadingScreenGetMap.routeName);
           });
         },
       );
