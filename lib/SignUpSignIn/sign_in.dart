@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_home_screen.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_show_info.dart';
-import 'package:location_tracker/SignUpSignIn/sign_up.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:location_tracker/show_info.dart';
@@ -10,6 +10,7 @@ import 'package:location_tracker/show_info.dart';
 final TextEditingController emailController = TextEditingController();
 final TextEditingController passwordController = TextEditingController();
 var myToken;
+var myPassword;
 
 class Token {
   Token({
@@ -69,20 +70,14 @@ class _SignInState extends State<SignIn> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   bool passwordVisible;
   Future<Token> _futureToken;
-  Future<SignInRequest> _futureSignInRequest;
 
   @override
   void initState() {
-    passwordVisible = false;
     super.initState();
+    passwordVisible = false;
+    emailController.clear();
+    passwordController.clear();
   }
-
-  // void _submit() {
-  //   setState(() {
-  //     _futureSignInRequest =
-  //         createRequest(emailController.text, passwordController.text, myToken);
-  //   });
-  // }
 
   void displayDialog(context, title, text) => showDialog(
       context: context,
@@ -97,7 +92,7 @@ class _SignInState extends State<SignIn> {
               ),
               actions: [
                 FlatButton(
-                  child: Text("Okay", style: GoogleFonts.lato()),
+                  child: Text("Okay", style: GoogleFonts.mcLaren()),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -113,19 +108,22 @@ class _SignInState extends State<SignIn> {
       appBar: AppBar(
         title: Text("Sign In", style: GoogleFonts.lato()),
         actions: [
-          FlatButton(
-            child: Row(
-              children: [
-                Text("SIGN UP", style: GoogleFonts.lato(color: Colors.white)),
-                SizedBox(width: 5.0),
-                Icon(Icons.person_add)
-              ],
-            ),
-            textColor: Colors.white,
-            onPressed: () {
-              Navigator.of(context).pushReplacementNamed(SignUp.routeName);
-            },
+          Image.asset(
+            "assets/map_pin_32.png",
           )
+          // FlatButton(
+          //   child: Row(
+          //     children: [
+          //       Text("SIGN UP", style: GoogleFonts.lato(color: Colors.white)),
+          //       SizedBox(width: 5.0),
+          //       Icon(Icons.person_add)
+          //     ],
+          //   ),
+          //   textColor: Colors.white,
+          //   onPressed: () {
+          //     Navigator.of(context).pushReplacementNamed(SignUp.routeName);
+          //   },
+          // )
         ],
       ),
       body: Stack(
@@ -213,25 +211,27 @@ class _SignInState extends State<SignIn> {
                         RaisedButton(
                           elevation: 5.0,
                           child: Text("Sign In",
-                              style: GoogleFonts.lato(
-                                  textStyle: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16))),
+                              style: GoogleFonts.mcLaren(
+                                  textStyle: TextStyle(fontSize: 16))),
                           onPressed: () async {
                             final form = _formKey.currentState;
                             if (form.validate()) {
                               setState(() {
+                                myPassword = passwordController.text;
                                 _futureToken = createToken(
                                   emailController.text,
                                   passwordController.text,
                                 );
-                                _futureToken.then((value) =>
-                                    Navigator.of(context).pushReplacementNamed(
-                                        LoadingScreenShowInfo.routeName));
                               });
-                            } else {
-                              displayDialog(context, "Error Occurred",
-                                  "No account was found matching that email address and password!");
+                              _futureToken
+                                  .then((value) => Navigator.of(context)
+                                      .pushReplacementNamed(
+                                          LoadingScreenHomeScreen.routeName))
+                                  .catchError((e) {
+                                print(e);
+                                displayDialog(context, "Error Occurred!",
+                                    "No account was found matching that email address and password. Please try again.");
+                              });
                             }
                           },
                           shape: RoundedRectangleBorder(

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_get_map.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_get_questions.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_home_screen.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_password_change.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_password_change_success.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_settings.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_show_info.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_submission.dart';
+import 'package:location_tracker/Settings/change_password.dart';
 import 'package:location_tracker/SignUpSignIn/sign_up.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
 import 'package:location_tracker/account_creation.dart';
@@ -10,9 +15,11 @@ import 'package:location_tracker/check_internet.dart';
 import 'package:location_tracker/get_questions.dart';
 import 'package:location_tracker/google_map.dart';
 import 'package:location_tracker/home_screen.dart';
+import 'package:location_tracker/password_reset_success.dart';
 import 'package:location_tracker/show_info.dart';
 import 'package:location_tracker/splash_screen.dart';
 import 'package:location_tracker/submission_success.dart';
+import 'package:location_tracker/Settings/settings.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,17 +33,27 @@ class MyApp extends StatelessWidget {
       routes: {
         SplashScreen.routeName: (ctx) => SplashScreen(),
         HomeScreen.routeName: (ctx) => HomeScreen(),
-        SignUp.routeName: (ctx) => SignUp(),
+        // SignUp.routeName: (ctx) => SignUp(),
         SignIn.routeName: (ctx) => SignIn(),
         ShowInfo.routeName: (ctx) => ShowInfo(),
         MyMap.routeName: (ctx) => MyMap(),
-        AccountCreation.routeName: (ctx) => AccountCreation(),
+        // AccountCreation.routeName: (ctx) => AccountCreation(),
         SubmissionSuccess.routeName: (ctx) => SubmissionSuccess(),
         GetQuestions.routeName: (ctx) => GetQuestions(),
+        LoadingScreenHomeScreen.routeName: (ctx) => HomeScreen(),
         LoadingScreenShowInfo.routeName: (ctx) => LoadingScreenShowInfo(),
-        LoadingScreenGetQuestions.routeName: (ctx) => LoadingScreenGetQuestions(),
+        LoadingScreenGetQuestions.routeName: (ctx) =>
+            LoadingScreenGetQuestions(),
         LoadingScreenGetMap.routeName: (ctx) => LoadingScreenGetMap(),
         LoadingScreenSubmission.routeName: (ctx) => LoadingScreenSubmission(),
+        LoadingScreenPasswordChange.routeName: (ctx) =>
+            LoadingScreenPasswordChange(),
+        LoadingScreenSettings.routeName: (ctx) => LoadingScreenSettings(),
+        LoadingScreenPasswordChangeSuccess.routeName: (ctx) =>
+            LoadingScreenPasswordChangeSuccess(),
+        ChangePassword.routeName: (ctx) => ChangePassword(),
+        PasswordResetSuccess.routeName: (ctx) => PasswordResetSuccess(),
+        Settings.routeName: (ctx) => Settings(),
       },
     );
   }

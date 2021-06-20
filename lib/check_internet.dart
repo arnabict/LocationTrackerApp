@@ -19,7 +19,7 @@ class _CheckInternetState extends State<CheckInternet> {
 
   void initTimer() async {
     if (await checkInternet()) {
-      Timer(Duration(seconds: 2), () {
+      Timer(Duration(seconds: 1), () {
         Navigator.of(context).pushReplacementNamed(SplashScreen.routeName);
       });
     }

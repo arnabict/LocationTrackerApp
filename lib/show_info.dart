@@ -4,12 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_get_questions.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 //Global
 List res;
-int myUserId;
 final storage = FlutterSecureStorage();
 final TextEditingController shopNameController = TextEditingController();
 final TextEditingController shopDetailsController = TextEditingController();
@@ -62,46 +59,11 @@ class _ShowInfoState extends State<ShowInfo> {
   bool validateShop = false;
   bool validateShopDetails = false;
 
-  Future<SignInRequest> _futureUserData;
-
-  Future<SignInRequest> createRequestWithToken(
-      String email, String password, String accessToken) async {
-    final http.Response response = await http.post(
-      Uri.parse("https://location.timetechri.co.uk/api/location/me"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': 'application/json',
-      },
-      body: jsonEncode(<String, String>{
-        'email': email,
-        'password': password,
-        'token': accessToken,
-      }),
-    );
-
-    print("MY TOKEN: " + myToken.toString());
-    if (response.statusCode == 200) {
-      var parsedJson = json.decode(response.body);
-      myUserId = parsedJson["id"];
-      print(response.body);
-      print("MY USER ID: " + myUserId.toString());
-      return SignInRequest.fromJson(json.decode(response.body));
-    } else {
-      throw Exception(response.body);
-    }
-  }
-
   @override
   void initState() {
     super.initState();
     shopNameController.clear();
     shopDetailsController.clear();
-    Future.delayed(Duration(milliseconds: 2500), () {
-      setState(() {
-        _futureUserData = createRequestWithToken(
-            emailController.text, passwordController.text, myToken);
-      });
-    });
     getCurrentLocation();
   }
 
@@ -151,8 +113,8 @@ class _ShowInfoState extends State<ShowInfo> {
                 shopDetailsController.text.isNotEmpty) {
               validateShop = false;
               validateShopDetails = false;
-              Navigator.of(context)
-                  .pushReplacementNamed(LoadingScreenGetQuestions.routeName);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => LoadingScreenGetQuestions()));
             }
             // shopNameController.text.isEmpty
             //     ? validateShop = true
@@ -295,21 +257,6 @@ class _ShowInfoState extends State<ShowInfo> {
                   ],
                 ),
               ),
-              // questionWidget(),
-              // Container(
-              //   padding: EdgeInsets.all(20.0),
-              //   child: Row(
-              //     children: [
-              //       Text(
-              //         "Assigned District: ",
-              //         style: GoogleFonts.lato(
-              //             textStyle: TextStyle(
-              //                 fontSize: 14, fontWeight: FontWeight.bold)),
-              //       ),
-              //       getDistrict(),
-              //     ],
-              //   ),
-              // ),
               Container(
                 padding: EdgeInsets.all(20.0),
                 child: Card(
@@ -367,10 +314,6 @@ class _ShowInfoState extends State<ShowInfo> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 40.0,
-              ),
-              // nextButton(),
             ],
           ),
         ),

@@ -1,19 +1,24 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:location_tracker/submission_success.dart';
+import 'package:location_tracker/Settings/change_password.dart';
+import 'package:location_tracker/SignUpSignIn/sign_in.dart';
+import 'package:location_tracker/password_reset_success.dart';
 
-class LoadingScreenSubmission extends StatefulWidget {
+class LoadingScreenPasswordChangeSuccess extends StatefulWidget {
   @override
-  _LoadingScreenSubmissionState createState() => _LoadingScreenSubmissionState();
-  static const routeName = '/loading_screen_submission';
+  _LoadingScreenPasswordChangeSuccessState createState() =>
+      _LoadingScreenPasswordChangeSuccessState();
+  static const routeName = '/loading_screen_password_change_success';
 }
 
-class _LoadingScreenSubmissionState extends State<LoadingScreenSubmission> {
+class _LoadingScreenPasswordChangeSuccessState
+    extends State<LoadingScreenPasswordChangeSuccess> {
   @override
   void initState() {
     super.initState();
     startTime();
+    myToken = null;
   }
 
   startTime() async {
@@ -22,7 +27,7 @@ class _LoadingScreenSubmissionState extends State<LoadingScreenSubmission> {
   }
 
   void navigationPage() {
-    Navigator.of(context).pushReplacementNamed(SubmissionSuccess.routeName);
+    Navigator.of(context).pushReplacementNamed(PasswordResetSuccess.routeName);
   }
 
   @override

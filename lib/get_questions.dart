@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:location_tracker/LoadingScreens/loading_screen_get_map.dart';
+import 'package:location_tracker/home_screen.dart';
 import 'package:location_tracker/show_info.dart';
 
 class GetQuestions extends StatefulWidget {
@@ -58,14 +60,16 @@ class _GetQuestionsState extends State<GetQuestions> {
   List myQuestionList;
   Future<QuestionList> futureQuestionList;
   Future futureSubmitAnswers;
-  bool submissionColor = false;
-  bool submissionStatus = false;
   bool validate = false;
+  var selectedOption;
+  List selectedItemValue = List();
+  var dropDownValue;
 
   @override
   void initState() {
     super.initState();
     futureQuestionList = createQuestionRequest();
+    // selectedValues = [];
   }
 
   @override
@@ -82,10 +86,10 @@ class _GetQuestionsState extends State<GetQuestions> {
 
     this.setState(() {
       myQuestionList = json.decode(response.body);
+      print(myQuestionList);
     });
 
     if (response.statusCode == 200) {
-      // print(myQuestionList);
       return QuestionList.fromJson(myQuestionList[0]);
     } else {
       throw Exception(response.statusCode);
@@ -96,6 +100,7 @@ class _GetQuestionsState extends State<GetQuestions> {
     int userId,
     int questionId,
     String questionAns,
+    String optionAns,
   ) async {
     final http.Response response = await http.post(
       Uri.parse(
@@ -108,10 +113,11 @@ class _GetQuestionsState extends State<GetQuestions> {
         'user_question_id': userId,
         'question_id': questionId,
         'question_ans': questionAns,
-        // 'token': accessToken,
+        'option_ans': optionAns,
       }),
     );
 
+    print(response.statusCode);
     if (response.statusCode == 200) {
       return (json.decode(response.body));
     } else {
@@ -153,7 +159,7 @@ class _GetQuestionsState extends State<GetQuestions> {
   void showSnackBar(BuildContext context) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(SnackBar(
-      content: const Text("Current answer submitted"),
+      content: const Text("Current answer submitted. Answer next question."),
     ));
   }
 
@@ -174,18 +180,10 @@ class _GetQuestionsState extends State<GetQuestions> {
         body: Container(
           height: double.infinity,
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [
-                Colors.white,
-                Colors.blueGrey,
-              ],
-                  stops: [
-                0.0,
-                1.0
-              ],
-                  begin: FractionalOffset.topCenter,
-                  end: FractionalOffset.bottomCenter,
-                  tileMode: TileMode.repeated)),
+              gradient: LinearGradient(colors: [
+            Colors.white,
+            Colors.blueGrey,
+          ], tileMode: TileMode.repeated)),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -194,7 +192,7 @@ class _GetQuestionsState extends State<GetQuestions> {
                     padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0),
                     child: Text(
                       "ANSWER ALL THE QUESTIONS",
-                      style: GoogleFonts.mcLaren(
+                      style: GoogleFonts.comicNeue(
                           textStyle: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
@@ -214,42 +212,206 @@ class _GetQuestionsState extends State<GetQuestions> {
                       Map<dynamic, TextEditingController>
                           textEditingControllers = {};
                       var textFields = <TextField>[];
+                      var dropDownOptionsList = [
+                        myQuestionList[index]["option1"],
+                        myQuestionList[index]["option2"],
+                        myQuestionList[index]["option3"],
+                        myQuestionList[index]["option4"]
+                      ];
+                      var dropDownList = <Column>[];
+                      var radioButtons = <Column>[];
                       stringListReturnedFromApiCall.forEach((str) {
                         var textEditingController =
                             TextEditingController(text: str);
                         textEditingControllers.putIfAbsent(
                             str, () => textEditingController);
                         textEditingController.clear();
-                        return textFields.add(TextField(
-                          controller: textEditingController,
-                          maxLines: 2,
-                          keyboardType: TextInputType.multiline,
-                          style: GoogleFonts.lato(
-                              fontSize: 14, color: Colors.black),
-                          decoration: InputDecoration(
-                              errorText: validate
-                                  ? "Answers can't be empty. Write the answers correctly."
-                                  : null,
-                              hintText: "Enter your answer here",
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  textEditingController.clear();
-                                },
-                                icon: Icon(Icons.cancel_outlined),
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: const EdgeInsets.all(10.0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Color(0xff004080), width: 3.0),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              enabledBorder: OutlineInputBorder(
+                        if (myQuestionList[index]["type"] == 1) {
+                          return textFields.add(TextField(
+                            controller: textEditingController,
+                            maxLines: 2,
+                            keyboardType: TextInputType.multiline,
+                            style: GoogleFonts.lato(
+                                fontSize: 14, color: Colors.black),
+                            decoration: InputDecoration(
+                                errorText: validate
+                                    ? "Answers can't be empty. Write the answers correctly."
+                                    : null,
+                                hintText: "Enter your answer here",
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    textEditingController.clear();
+                                  },
+                                  icon: Icon(Icons.cancel_outlined),
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                                contentPadding: const EdgeInsets.all(10.0),
+                                focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Colors.grey, width: 3.0),
-                                  borderRadius: BorderRadius.circular(5))),
-                        ));
+                                      color: Color(0xff004080), width: 3.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey, width: 3.0),
+                                    borderRadius: BorderRadius.circular(5))),
+                          ));
+                        } else if (myQuestionList[index]["type"] == 2) {
+                          return dropDownList.add(Column(
+                            children: <Widget>[
+                              // ListView.builder(
+                              //   shrinkWrap: true,
+                              //   itemCount: 5,
+                              //   itemBuilder:
+                              //       (BuildContext context, int index) {
+                              //     for (int i = 0; i < myQuestionList.length; i++) {
+                              //       selectedItemValue.add("Select an option");
+                              //       return DropdownButton(
+                              //         value:
+                              //             selectedItemValue[index].toString().isNotEmpty ? selectedItemValue[index].toString(): null,
+                              //         onChanged: (value) {
+                              //           selectedItemValue[index] = value;
+                              //           setState(() {});
+                              //         },
+                              //         items: dropDownOptionsList.map((item) {
+                              //           return DropdownMenuItem(
+                              //             child: Center(
+                              //               child: Text(
+                              //                 item,
+                              //                 textAlign: TextAlign.center,
+                              //                 style: GoogleFonts.lato(),
+                              //               ),
+                              //             ),
+                              //             value: item.toString(),
+                              //           );
+                              //         }).toList(),
+                              //       );
+                              //     }
+                              //     return null;
+                              //   },
+                              // ),
+                              Container(
+                                decoration: ShapeDecoration(
+                                  //color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Color(0xff004080),
+                                          width: 3.0,
+                                          style: BorderStyle.solid),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0))),
+                                ),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                    isExpanded: true,
+                                    hint: Center(
+                                      child: Text(
+                                        "Select an option",
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.mcLaren(
+                                            textStyle: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                    ),
+                                    value: dropDownValue,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        dropDownValue = value;
+                                        print(dropDownValue);
+                                      });
+                                    },
+                                    items: dropDownOptionsList.map((item) {
+                                      return DropdownMenuItem(
+                                        child: Center(
+                                          child: Text(
+                                            item,
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.lato(),
+                                          ),
+                                        ),
+                                        value: item.toString(),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ));
+                        } else if (myQuestionList[index]["type"] == 3) {
+                          return radioButtons.add(Column(
+                            children: [
+                              ListTile(
+                                title: Text(
+                                  myQuestionList[index]["option1"],
+                                  style: GoogleFonts.lato(),
+                                ),
+                                leading: Radio(
+                                  activeColor: Color(0xff004080),
+                                  value: myQuestionList[index]["option1"],
+                                  groupValue: selectedOption,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedOption = value;
+                                      print(selectedOption);
+                                    });
+                                  },
+                                ),
+                              ),
+                              ListTile(
+                                title: Text(
+                                  myQuestionList[index]["option2"],
+                                  style: GoogleFonts.lato(),
+                                ),
+                                leading: Radio(
+                                  activeColor: Color(0xff004080),
+                                  value: myQuestionList[index]["option2"],
+                                  groupValue: selectedOption,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedOption = value;
+                                      print(selectedOption);
+                                    });
+                                  },
+                                ),
+                              ),
+                              ListTile(
+                                title: Text(
+                                  myQuestionList[index]["option3"],
+                                  style: GoogleFonts.lato(),
+                                ),
+                                leading: Radio(
+                                  activeColor: Color(0xff004080),
+                                  value: myQuestionList[index]["option3"],
+                                  groupValue: selectedOption,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedOption = value;
+                                      print(selectedOption);
+                                    });
+                                  },
+                                ),
+                              ),
+                              ListTile(
+                                title: Text(
+                                  myQuestionList[index]["option4"],
+                                  style: GoogleFonts.lato(),
+                                ),
+                                leading: Radio(
+                                  activeColor: Color(0xff004080),
+                                  value: myQuestionList[index]["option4"],
+                                  groupValue: selectedOption,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedOption = value;
+                                      print(selectedOption);
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
+                          ));
+                        }
                       });
                       return Card(
                         elevation: 10.0,
@@ -269,13 +431,15 @@ class _GetQuestionsState extends State<GetQuestions> {
                           child: Column(
                             children: [
                               Container(
+                                alignment: Alignment.topLeft,
                                 padding: EdgeInsets.only(bottom: 10.0),
                                 child: Text(
                                   myQuestionList[index]["name"],
                                   style: GoogleFonts.lato(
                                       color: Colors.black,
-                                      textStyle: TextStyle(fontSize: 16)),
-                                  textAlign: TextAlign.center,
+                                      textStyle: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)),
                                 ),
                               ),
                               Column(
@@ -285,33 +449,91 @@ class _GetQuestionsState extends State<GetQuestions> {
                                   ),
                                 ],
                               ),
+                              Column(
+                                children: [
+                                  Column(
+                                    children: dropDownList,
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Column(
+                                    children: radioButtons,
+                                  )
+                                ],
+                              ),
                               ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      primary: Colors.teal),
+                                      primary: Color(0xff004080)),
                                   child: Text("Submit Here",
-                                      style: GoogleFonts.lato(
+                                      style: GoogleFonts.mcLaren(
                                           textStyle: TextStyle(fontSize: 14))),
                                   onPressed: () {
                                     var currentId = myQuestionList[index]["id"];
-                                    var currentText;
-                                    stringListReturnedFromApiCall
-                                        .forEach((element) {
-                                      currentText =
-                                          textEditingControllers[element].text;
-                                      setState(() {
-                                        currentText.isEmpty
-                                            ? validate = true
-                                            : validate = false;
+                                    if (myQuestionList[index]["type"] == 1) {
+                                      var currentText;
+                                      stringListReturnedFromApiCall
+                                          .forEach((element) {
+                                        currentText =
+                                            textEditingControllers[element]
+                                                .text;
+                                        setState(() {
+                                          currentText.isEmpty
+                                              ? validate = true
+                                              : validate = false;
+                                        });
                                       });
-                                    });
-                                    print(currentId);
-                                    print(currentText);
-                                    setState(() {
-                                      futureSubmitAnswers = createSubmitAnswers(
-                                          myUserId, currentId, currentText);
-                                      futureSubmitAnswers.then(
-                                          (value) => showSnackBar(context));
-                                    });
+                                      print(currentId);
+                                      print(currentText);
+                                      setState(() {
+                                        futureSubmitAnswers =
+                                            createSubmitAnswers(myUserId,
+                                                currentId, currentText, null);
+                                        futureSubmitAnswers.then(
+                                            (value) => showSnackBar(context));
+                                      });
+                                    } else if (myQuestionList[index]["type"] ==
+                                        2) {
+                                      var currentId =
+                                          myQuestionList[index]["id"];
+                                      var currentSelected;
+                                      stringListReturnedFromApiCall
+                                          .forEach((element) {
+                                        // currentSelected = dropDownValue;
+                                        print(currentId);
+                                        print(currentSelected);
+                                        setState(() {
+                                          futureSubmitAnswers =
+                                              createSubmitAnswers(
+                                                  myUserId,
+                                                  currentId,
+                                                  currentSelected,
+                                                  null);
+                                          futureSubmitAnswers.then(
+                                              (value) => showSnackBar(context));
+                                        });
+                                      });
+                                    } else if (myQuestionList[index]["type"] ==
+                                        3) {
+                                      var currentId =
+                                          myQuestionList[index]["id"];
+                                      var currentOption;
+                                      stringListReturnedFromApiCall
+                                          .forEach((element) {
+                                        currentOption = selectedOption;
+                                        setState(() {});
+                                      });
+                                      print(currentId);
+                                      print(currentOption);
+                                      setState(() {
+                                        futureSubmitAnswers =
+                                            createSubmitAnswers(myUserId,
+                                                currentId, currentOption, null);
+                                        futureSubmitAnswers.then(
+                                            (value) => showSnackBar(context));
+                                      });
+                                    }
                                   }),
                             ],
                           ),

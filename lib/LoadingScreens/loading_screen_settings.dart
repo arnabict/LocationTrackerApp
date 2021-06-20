@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:location_tracker/submission_success.dart';
+import 'package:location_tracker/Settings/settings.dart';
 
-class LoadingScreenSubmission extends StatefulWidget {
+class LoadingScreenSettings extends StatefulWidget {
   @override
-  _LoadingScreenSubmissionState createState() => _LoadingScreenSubmissionState();
-  static const routeName = '/loading_screen_submission';
+  _LoadingScreenSettingsState createState() => _LoadingScreenSettingsState();
+  static const routeName = '/loading_screen_settings';
 }
 
-class _LoadingScreenSubmissionState extends State<LoadingScreenSubmission> {
+class _LoadingScreenSettingsState extends State<LoadingScreenSettings> {
   @override
   void initState() {
     super.initState();
@@ -22,7 +22,7 @@ class _LoadingScreenSubmissionState extends State<LoadingScreenSubmission> {
   }
 
   void navigationPage() {
-    Navigator.of(context).pushReplacementNamed(SubmissionSuccess.routeName);
+    Navigator.of(context).pushReplacementNamed(Settings.routeName);
   }
 
   @override

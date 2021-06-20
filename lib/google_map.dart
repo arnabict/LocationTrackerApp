@@ -6,6 +6,7 @@ import 'package:location_tracker/LoadingScreens/loading_screen_submission.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
 import 'package:location_tracker/show_info.dart';
 import 'package:http/http.dart' as http;
+import 'package:location_tracker/home_screen.dart';
 
 // API Key in Google Cloud Platform
 
