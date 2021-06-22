@@ -45,8 +45,7 @@ class SubmissionSuccess extends StatelessWidget {
                 elevation: 5.0,
                 child: Text("HOME",
                     style: GoogleFonts.mcLaren(
-                        textStyle: TextStyle(
-                            fontSize: 16))),
+                        textStyle: TextStyle(fontSize: 16))),
                 onPressed: () {
                   Navigator.of(context)
                       .pushReplacementNamed(HomeScreen.routeName);

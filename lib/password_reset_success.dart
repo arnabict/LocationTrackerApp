@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
-import 'package:location_tracker/home_screen.dart';
 
 class PasswordResetSuccess extends StatelessWidget {
   static const routeName = '/password_reset_success';
@@ -17,13 +16,13 @@ class PasswordResetSuccess extends StatelessWidget {
           height: double.infinity,
           decoration: BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Colors.white,
-                  Colors.blueGrey,
-                ],
-              )),
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Colors.white,
+              Colors.blueGrey,
+            ],
+          )),
           alignment: Alignment.center,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -46,11 +45,9 @@ class PasswordResetSuccess extends StatelessWidget {
                 elevation: 5.0,
                 child: Text("Sign In",
                     style: GoogleFonts.mcLaren(
-                        textStyle: TextStyle(
-                            fontSize: 16))),
+                        textStyle: TextStyle(fontSize: 16))),
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed(SignIn.routeName);
+                  Navigator.of(context).pushReplacementNamed(SignIn.routeName);
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_get_questions.dart';
-import 'package:location_tracker/SignUpSignIn/sign_in.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 //Global

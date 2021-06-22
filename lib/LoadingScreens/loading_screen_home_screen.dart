@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:location_tracker/Settings/settings.dart';
 import 'package:location_tracker/home_screen.dart';
 
 class LoadingScreenHomeScreen extends StatefulWidget {
@@ -18,7 +17,7 @@ class _LoadingScreenHomeScreenState extends State<LoadingScreenHomeScreen> {
   }
 
   startTime() async {
-    var _duration = new Duration(seconds: 5);
+    var _duration = new Duration(seconds: 2);
     return new Timer(_duration, navigationPage);
   }
 

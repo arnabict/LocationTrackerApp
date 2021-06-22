@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:location_tracker/LoadingScreens/loading_screen_get_map.dart';
 import 'package:location_tracker/home_screen.dart';
-import 'package:location_tracker/show_info.dart';
 
 class GetQuestions extends StatefulWidget {
   GetQuestions({Key key}) : super(key: key);
@@ -61,15 +60,13 @@ class _GetQuestionsState extends State<GetQuestions> {
   Future<QuestionList> futureQuestionList;
   Future futureSubmitAnswers;
   bool validate = false;
+  // var dropDownValue;
   var selectedOption;
-  List selectedItemValue = List();
-  var dropDownValue;
 
   @override
   void initState() {
     super.initState();
     futureQuestionList = createQuestionRequest();
-    // selectedValues = [];
   }
 
   @override
@@ -100,7 +97,6 @@ class _GetQuestionsState extends State<GetQuestions> {
     int userId,
     int questionId,
     String questionAns,
-    String optionAns,
   ) async {
     final http.Response response = await http.post(
       Uri.parse(
@@ -113,7 +109,6 @@ class _GetQuestionsState extends State<GetQuestions> {
         'user_question_id': userId,
         'question_id': questionId,
         'question_ans': questionAns,
-        'option_ans': optionAns,
       }),
     );
 
@@ -220,6 +215,8 @@ class _GetQuestionsState extends State<GetQuestions> {
                       ];
                       var dropDownList = <Column>[];
                       var radioButtons = <Column>[];
+                      // var selectedOption;
+                      var dropDownValue;
                       stringListReturnedFromApiCall.forEach((str) {
                         var textEditingController =
                             TextEditingController(text: str);
@@ -309,7 +306,7 @@ class _GetQuestionsState extends State<GetQuestions> {
                                       child: Text(
                                         "Select an option",
                                         textAlign: TextAlign.center,
-                                        style: GoogleFonts.mcLaren(
+                                        style: GoogleFonts.lato(
                                             textStyle: TextStyle(
                                                 fontWeight: FontWeight.bold)),
                                       ),
@@ -341,73 +338,93 @@ class _GetQuestionsState extends State<GetQuestions> {
                         } else if (myQuestionList[index]["type"] == 3) {
                           return radioButtons.add(Column(
                             children: [
-                              ListTile(
-                                title: Text(
-                                  myQuestionList[index]["option1"],
-                                  style: GoogleFonts.lato(),
-                                ),
-                                leading: Radio(
-                                  activeColor: Color(0xff004080),
-                                  value: myQuestionList[index]["option1"],
-                                  groupValue: selectedOption,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selectedOption = value;
-                                      print(selectedOption);
-                                    });
-                                  },
-                                ),
+                              Row(
+                                children: [
+                                  Radio(
+                                    activeColor: Color(0xff004080),
+                                    value: myQuestionList[index]["option1"],
+                                    groupValue: selectedOption,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedOption = value;
+                                        print(selectedOption);
+                                      });
+                                    },
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      myQuestionList[index]["option1"],
+                                      style: GoogleFonts.lato(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  )
+                                ],
                               ),
-                              ListTile(
-                                title: Text(
-                                  myQuestionList[index]["option2"],
-                                  style: GoogleFonts.lato(),
-                                ),
-                                leading: Radio(
-                                  activeColor: Color(0xff004080),
-                                  value: myQuestionList[index]["option2"],
-                                  groupValue: selectedOption,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selectedOption = value;
-                                      print(selectedOption);
-                                    });
-                                  },
-                                ),
+                              Row(
+                                children: [
+                                  Radio(
+                                    activeColor: Color(0xff004080),
+                                    value: myQuestionList[index]["option2"],
+                                    groupValue: selectedOption,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedOption = value;
+                                        print(selectedOption);
+                                      });
+                                    },
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      myQuestionList[index]["option2"],
+                                      style: GoogleFonts.lato(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  )
+                                ],
                               ),
-                              ListTile(
-                                title: Text(
-                                  myQuestionList[index]["option3"],
-                                  style: GoogleFonts.lato(),
-                                ),
-                                leading: Radio(
-                                  activeColor: Color(0xff004080),
-                                  value: myQuestionList[index]["option3"],
-                                  groupValue: selectedOption,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selectedOption = value;
-                                      print(selectedOption);
-                                    });
-                                  },
-                                ),
+                              Row(
+                                children: [
+                                  Radio(
+                                    activeColor: Color(0xff004080),
+                                    value: myQuestionList[index]["option3"],
+                                    groupValue: selectedOption,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedOption = value;
+                                        print(selectedOption);
+                                      });
+                                    },
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      myQuestionList[index]["option3"],
+                                      style: GoogleFonts.lato(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  )
+                                ],
                               ),
-                              ListTile(
-                                title: Text(
-                                  myQuestionList[index]["option4"],
-                                  style: GoogleFonts.lato(),
-                                ),
-                                leading: Radio(
-                                  activeColor: Color(0xff004080),
-                                  value: myQuestionList[index]["option4"],
-                                  groupValue: selectedOption,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selectedOption = value;
-                                      print(selectedOption);
-                                    });
-                                  },
-                                ),
+                              Row(
+                                children: [
+                                  Radio(
+                                    activeColor: Color(0xff004080),
+                                    value: myQuestionList[index]["option4"],
+                                    groupValue: selectedOption,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedOption = value;
+                                        print(selectedOption);
+                                      });
+                                    },
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      myQuestionList[index]["option4"],
+                                      style: GoogleFonts.lato(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  )
+                                ],
                               ),
                             ],
                           ));
@@ -489,7 +506,7 @@ class _GetQuestionsState extends State<GetQuestions> {
                                       setState(() {
                                         futureSubmitAnswers =
                                             createSubmitAnswers(myUserId,
-                                                currentId, currentText, null);
+                                                currentId, currentText);
                                         futureSubmitAnswers.then(
                                             (value) => showSnackBar(context));
                                       });
@@ -500,16 +517,16 @@ class _GetQuestionsState extends State<GetQuestions> {
                                       var currentSelected;
                                       stringListReturnedFromApiCall
                                           .forEach((element) {
-                                        // currentSelected = dropDownValue;
+                                        currentSelected = dropDownValue;
                                         print(currentId);
                                         print(currentSelected);
                                         setState(() {
                                           futureSubmitAnswers =
                                               createSubmitAnswers(
-                                                  myUserId,
-                                                  currentId,
-                                                  currentSelected,
-                                                  null);
+                                            myUserId,
+                                            currentId,
+                                            currentSelected,
+                                          );
                                           futureSubmitAnswers.then(
                                               (value) => showSnackBar(context));
                                         });
@@ -529,7 +546,7 @@ class _GetQuestionsState extends State<GetQuestions> {
                                       setState(() {
                                         futureSubmitAnswers =
                                             createSubmitAnswers(myUserId,
-                                                currentId, currentOption, null);
+                                                currentId, currentOption);
                                         futureSubmitAnswers.then(
                                             (value) => showSnackBar(context));
                                       });

@@ -85,19 +85,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget userImage() {
     if (myToken == null) {
-      return ClipRRect(
+      return ClipOval(
         child: Image.asset(
           "assets/my_location.png",
           height: 128,
           width: 128,
+          fit: BoxFit.cover,
         ),
       );
     } else if (myToken != null) {
-      return ClipRRect(
+      return ClipOval(
         child: Image.asset(
           "assets/dummy_user.png",
           height: 128,
           width: 128,
+          fit: BoxFit.cover,
         ),
       );
     } else
@@ -139,10 +141,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   DrawerHeader(
                     decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [
-                      Colors.white,
-                      Colors.white,
-                    ])),
+                        gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Colors.black,
+                              Color(0xff004080),
+                            ])),
                     child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

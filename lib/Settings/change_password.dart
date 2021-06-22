@@ -59,25 +59,25 @@ class _ChangePasswordState extends State<ChangePassword> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   Future _futurePasswordReset;
 
-  void displayDialog(context, title, text) => showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-              title: Text(
-                title,
-                style: GoogleFonts.lato(),
-              ),
-              content: Text(
-                text,
-                style: GoogleFonts.lato(),
-              ),
-              actions: [
-                FlatButton(
-                  child: Text("Okay", style: GoogleFonts.mcLaren()),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-              ]));
+  // void displayDialog(context, title, text) => showDialog(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //             title: Text(
+  //               title,
+  //               style: GoogleFonts.lato(),
+  //             ),
+  //             content: Text(
+  //               text,
+  //               style: GoogleFonts.lato(),
+  //             ),
+  //             actions: [
+  //               FlatButton(
+  //                 child: Text("Okay", style: GoogleFonts.mcLaren()),
+  //                 onPressed: () {
+  //                   Navigator.of(context).pop();
+  //                 },
+  //               )
+  //             ]));
 
   Future createPasswordReset(
       // String accessToken,
@@ -138,8 +138,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                 newPasswordController.text,
                 confirmPasswordController.text);
           });
-          _futurePasswordReset
-              .then((value) => Navigator.of(context).pushReplacementNamed(
+          _futurePasswordReset.then((value) => Navigator.of(context)
+              .pushReplacementNamed(
                   LoadingScreenPasswordChangeSuccess.routeName));
         }
       },

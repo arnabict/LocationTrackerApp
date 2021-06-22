@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_home_screen.dart';
-import 'package:location_tracker/LoadingScreens/loading_screen_show_info.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:location_tracker/show_info.dart';
+
+import 'package:location_tracker/LoadingScreens/loading_screen_show_info.dart';
 
 //Global
 final TextEditingController emailController = TextEditingController();
@@ -101,9 +101,8 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    String pattern = r'^(\+?(88))?(01)[3-9]\d{8}$';
-    RegExp regExp = RegExp(pattern);
-
+    // String pattern = r'^(\+?(88))?(01)[3-9]\d{8}$';
+    // RegExp regExp = RegExp(pattern);
     return Scaffold(
       appBar: AppBar(
         title: Text("Sign In", style: GoogleFonts.lato()),
