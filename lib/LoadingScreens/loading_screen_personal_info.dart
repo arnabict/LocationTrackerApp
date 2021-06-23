@@ -2,16 +2,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:location_tracker/Settings/change_password.dart';
+import 'package:location_tracker/Settings/change_personal_info.dart';
 
-class LoadingScreenPasswordChange extends StatefulWidget {
+class LoadingScreenPersonalInfo extends StatefulWidget {
   @override
-  _LoadingScreenPasswordChangeState createState() =>
-      _LoadingScreenPasswordChangeState();
-  static const routeName = '/loading_screen_password_change';
+  _LoadingScreenPersonalInfoState createState() =>
+      _LoadingScreenPersonalInfoState();
+  static const routeName = '/loading_screen_personal_info';
 }
 
-class _LoadingScreenPasswordChangeState
-    extends State<LoadingScreenPasswordChange> {
+class _LoadingScreenPersonalInfoState
+    extends State<LoadingScreenPersonalInfo> {
   @override
   void initState() {
     super.initState();
@@ -24,7 +25,7 @@ class _LoadingScreenPasswordChangeState
   }
 
   void navigationPage() {
-    Navigator.of(context).pushReplacementNamed(ChangePassword.routeName);
+    Navigator.of(context).pushReplacementNamed(ChangePersonalInfo.routeName);
   }
 
   @override
@@ -35,13 +36,13 @@ class _LoadingScreenPasswordChangeState
         width: MediaQuery.of(context).size.width * 1.00,
         decoration: BoxDecoration(
             gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Colors.white,
-            Colors.blueGrey,
-          ],
-        )),
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Colors.white,
+                Colors.blueGrey,
+              ],
+            )),
         child: Center(
           child: SpinKitCubeGrid(
             color: Color(0xff004080),

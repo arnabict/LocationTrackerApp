@@ -4,10 +4,14 @@ import 'package:location_tracker/LoadingScreens/loading_screen_get_questions.dar
 import 'package:location_tracker/LoadingScreens/loading_screen_home_screen.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_password_change.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_password_change_success.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_personal_info.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_pp_change.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_settings.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_show_info.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_submission.dart';
 import 'package:location_tracker/Settings/change_password.dart';
+import 'package:location_tracker/Settings/change_personal_info.dart';
+import 'package:location_tracker/Settings/change_profile_picture.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
 import 'package:location_tracker/check_internet.dart';
 import 'package:location_tracker/get_questions.dart';
@@ -49,6 +53,11 @@ class MyApp extends StatelessWidget {
         LoadingScreenSettings.routeName: (ctx) => LoadingScreenSettings(),
         LoadingScreenPasswordChangeSuccess.routeName: (ctx) =>
             LoadingScreenPasswordChangeSuccess(),
+        LoadingScreenPersonalInfo.routeName: (ctx) =>
+            LoadingScreenPersonalInfo(),
+        LoadingScreenPPChange.routeName: (ctx) => LoadingScreenPPChange(),
+        ChangePersonalInfo.routeName: (ctx) => ChangePersonalInfo(),
+        ChangeProfilePicture.routeName: (ctx) => ChangeProfilePicture(),
         ChangePassword.routeName: (ctx) => ChangePassword(),
         PasswordResetSuccess.routeName: (ctx) => PasswordResetSuccess(),
         Settings.routeName: (ctx) => Settings(),

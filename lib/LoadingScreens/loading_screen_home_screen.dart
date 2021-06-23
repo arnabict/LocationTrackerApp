@@ -17,7 +17,7 @@ class _LoadingScreenHomeScreenState extends State<LoadingScreenHomeScreen> {
   }
 
   startTime() async {
-    var _duration = new Duration(seconds: 2);
+    var _duration = new Duration(seconds: 1);
     return new Timer(_duration, navigationPage);
   }
 
