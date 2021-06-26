@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:location_tracker/LoadingScreens/loading_screen_password_change_success.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_personal_info.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_personal_info_success.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
 import 'dart:convert';
 import 'package:location_tracker/home_screen.dart';
@@ -14,54 +16,56 @@ class ChangePersonalInfo extends StatefulWidget {
 }
 
 class _ChangePersonalInfoState extends State<ChangePersonalInfo> {
-  final TextEditingController firstNameController =
-  TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController addressController =
-  TextEditingController();
+  final TextEditingController addressController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
   Future _futurePasswordReset;
 
   var genderSelection;
 
-  // void displayDialog(context, title, text) => showDialog(
-  //     context: context,
-  //     builder: (context) => AlertDialog(
-  //             title: Text(
-  //               title,
-  //               style: GoogleFonts.lato(),
-  //             ),
-  //             content: Text(
-  //               text,
-  //               style: GoogleFonts.lato(),
-  //             ),
-  //             actions: [
-  //               FlatButton(
-  //                 child: Text("Okay", style: GoogleFonts.mcLaren()),
-  //                 onPressed: () {
-  //                   Navigator.of(context).pop();
-  //                 },
-  //               )
-  //             ]));
+  void displayDialog(context, title, text) => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+              title: Text(
+                title,
+                style: GoogleFonts.lato(),
+              ),
+              content: Text(
+                text,
+                style: GoogleFonts.lato(),
+              ),
+              actions: [
+                FlatButton(
+                  child: Text("Okay", style: GoogleFonts.mcLaren()),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ]));
 
-  Future createPasswordReset(
+  Future createPersonalInfo(
       // String accessToken,
       int myUserId,
-      String myCurrentPassword,
-      String myNewPassword,
-      String myConfirmPassword) async {
+      String myFirstName,
+      String myLastName,
+      String myGender,
+      String myAddress,
+      String myImage) async {
     final http.Response response = await http.post(
       Uri.parse(
-          "https://location.timetechri.co.uk/api/location/change/password"),
+          "https://location.timetechri.co.uk/api/location/update/profile"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
       },
       body: jsonEncode(<String, dynamic>{
         "user_id": myUserId,
-        "current_password": myCurrentPassword,
-        "new_password": myNewPassword,
-        "confirm_password": myConfirmPassword,
+        "first_name": myFirstName,
+        "last_name": myLastName,
+        "gender": myGender,
+        "address": myAddress,
+        "image": myImage,
       }),
     );
 
@@ -95,10 +99,20 @@ class _ChangePersonalInfoState extends State<ChangePersonalInfo> {
         final form = _formKey.currentState;
         if (form.validate()) {
           setState(() {
+            _futurePasswordReset = createPersonalInfo(
+                myUserId,
+                firstNameController.text,
+                lastNameController.text,
+                genderSelection,
+                addressController.text,
+                null);
           });
-          _futurePasswordReset.then((value) => Navigator.of(context)
-              .pushReplacementNamed(
-              LoadingScreenPasswordChangeSuccess.routeName));
+          _futurePasswordReset
+              .then((value) => Navigator.of(context)
+                  .pushReplacementNamed(LoadingScreenPersonalInfoSuccess.routeName))
+              .catchError((e) {
+            displayDialog(context, "Error Occurred!", "Try again later.");
+          });
         }
       },
     );
@@ -108,14 +122,14 @@ class _ChangePersonalInfoState extends State<ChangePersonalInfo> {
     return FormField<String>(
       validator: (value) {
         if (value == null) {
-          return "Change gender";
+          return "Select gender";
         }
         return null;
       },
       onSaved: (value) {},
       builder: (
-          FormFieldState<String> state,
-          ) {
+        FormFieldState<String> state,
+      ) {
         return Column(
           children: <Widget>[
             Container(
@@ -147,7 +161,7 @@ class _ChangePersonalInfoState extends State<ChangePersonalInfo> {
                     });
                   },
                   items:
-                  <String>["Male", "Female", "Other"].map((String value) {
+                      <String>["Male", "Female", "Other"].map((String value) {
                     return new DropdownMenuItem<String>(
                       value: value,
                       child: Center(
@@ -185,9 +199,9 @@ class _ChangePersonalInfoState extends State<ChangePersonalInfo> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Colors.white,
-                    Colors.blueGrey,
-                  ])),
+                Colors.white,
+                Colors.blueGrey,
+              ])),
           child: Form(
             key: _formKey,
             child: SingleChildScrollView(
@@ -251,7 +265,7 @@ class _ChangePersonalInfoState extends State<ChangePersonalInfo> {
                             if (value.isEmpty) {
                               return "Last Name can't be empty";
                             } else
-                            return null;
+                              return null;
                           },
                           controller: lastNameController,
                           style: GoogleFonts.lato(

@@ -5,7 +5,9 @@ import 'package:location_tracker/LoadingScreens/loading_screen_home_screen.dart'
 import 'package:location_tracker/LoadingScreens/loading_screen_password_change.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_password_change_success.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_personal_info.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_personal_info_success.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_pp_change.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_pp_change_success.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_settings.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_show_info.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_submission.dart';
@@ -18,6 +20,8 @@ import 'package:location_tracker/get_questions.dart';
 import 'package:location_tracker/google_map.dart';
 import 'package:location_tracker/home_screen.dart';
 import 'package:location_tracker/password_reset_success.dart';
+import 'package:location_tracker/personal_info_success.dart';
+import 'package:location_tracker/pp_change_success.dart';
 import 'package:location_tracker/show_info.dart';
 import 'package:location_tracker/splash_screen.dart';
 import 'package:location_tracker/submission_success.dart';
@@ -56,6 +60,12 @@ class MyApp extends StatelessWidget {
         LoadingScreenPersonalInfo.routeName: (ctx) =>
             LoadingScreenPersonalInfo(),
         LoadingScreenPPChange.routeName: (ctx) => LoadingScreenPPChange(),
+        LoadingScreenPPChangeSuccess.routeName: (ctx) =>
+            LoadingScreenPPChangeSuccess(),
+        LoadingScreenPersonalInfoSuccess.routeName: (ctx) =>
+            LoadingScreenPersonalInfoSuccess(),
+        PersonalInfoSuccess.routeName: (ctx) => PersonalInfoSuccess(),
+        PPChangeSuccess.routeName: (ctx) => PPChangeSuccess(),
         ChangePersonalInfo.routeName: (ctx) => ChangePersonalInfo(),
         ChangeProfilePicture.routeName: (ctx) => ChangeProfilePicture(),
         ChangePassword.routeName: (ctx) => ChangePassword(),

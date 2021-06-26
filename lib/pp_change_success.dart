@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_home_screen.dart';
+import 'package:location_tracker/SignUpSignIn/sign_in.dart';
 import 'package:location_tracker/home_screen.dart';
 
-class SubmissionSuccess extends StatelessWidget {
-  static const routeName = '/submission_success';
+class PPChangeSuccess extends StatelessWidget {
+  static const routeName = '/pp_change_success';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Successful Submission", style: GoogleFonts.lato()),
+        title: Text("Profile Picture Changed", style: GoogleFonts.lato()),
         automaticallyImplyLeading: false,
       ),
       body: Container(
@@ -35,7 +36,7 @@ class SubmissionSuccess extends StatelessWidget {
                 color: Colors.green,
               ),
               Text(
-                "Information submitted successfully.",
+                "Profile picture has been changed.",
                 style: GoogleFonts.comicNeue(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -44,7 +45,7 @@ class SubmissionSuccess extends StatelessWidget {
               ),
               RaisedButton(
                 elevation: 5.0,
-                child: Text("HOME",
+                child: Text("Home",
                     style: GoogleFonts.mcLaren(
                         textStyle: TextStyle(fontSize: 16))),
                 onPressed: () {

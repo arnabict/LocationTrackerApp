@@ -2,11 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:convert';
 import 'dart:io';
 import 'package:http_parser/http_parser.dart';
+import 'package:location_tracker/LoadingScreens/loading_screen_pp_change_success.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
 import 'package:location_tracker/home_screen.dart';
+
+//Global
+var imageUrl;
 
 class ChangeProfilePicture extends StatefulWidget {
   static const routeName = '/change_profile_picture';
@@ -49,7 +52,7 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
             ])),
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(40.0),
             child: Column(
               children: [
                 Container(
@@ -146,6 +149,15 @@ class _ChangeProfilePictureState extends State<ChangeProfilePicture> {
                               "Content-Type": "multipart/form.data",
                             }));
                         print(response.data);
+                        if (response.statusCode == 200) {
+                          var parsedJson = response.data;
+                          print(parsedJson);
+                          imageUrl = parsedJson["image"];
+                          setState(() {
+                            Navigator.of(context).pushReplacementNamed(
+                                LoadingScreenPPChangeSuccess.routeName);
+                          });
+                        }
                       } catch (e) {
                         print(e);
                       }

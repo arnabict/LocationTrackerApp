@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_settings.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_show_info.dart';
-import 'package:location_tracker/Settings/change_password.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
 import 'package:location_tracker/show_info.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +9,8 @@ import 'dart:convert';
 
 //Global
 int myUserId;
+var imageUrl;
+var myImageUrl;
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home_screen';
@@ -56,12 +57,17 @@ class _HomeScreenState extends State<HomeScreen> {
       }),
     );
 
-    print("MY TOKEN: " + myToken.toString());
+    print("MY TOKEN RESPONSE: " + myToken.toString());
     if (response.statusCode == 200) {
       var parsedJson = json.decode(response.body);
       myUserId = parsedJson["id"];
+      imageUrl = parsedJson["image"];
       print(response.body);
-      print("MY USER ID: " + myUserId.toString());
+      print("MY USER ID RESPONSE: " + myUserId.toString());
+      myImageUrl =
+          "https://location.timetechri.co.uk/api/location/update/profile/" +
+              imageUrl.toString();
+      print(myImageUrl);
       return SignInRequest.fromJson(json.decode(response.body));
     } else {
       throw Exception(response.body);
@@ -71,8 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    print("MY PASSWORD: " + myPassword.toString());
-    print("MY UPDATED PASSWORD: " + myUpdatedPassword.toString());
+    print("MY USER ID INIT: " + myUserId.toString());
+    print("MY TOKEN INIT: " + myToken.toString());
     if (myToken != null) {
       Future.delayed(Duration(milliseconds: 2500), () {
         setState(() {
@@ -93,10 +99,19 @@ class _HomeScreenState extends State<HomeScreen> {
           fit: BoxFit.cover,
         ),
       );
-    } else if (myToken != null) {
+    } else if (myToken != null && myImageUrl == null) {
       return ClipOval(
         child: Image.asset(
           "assets/dummy_user.png",
+          height: 128,
+          width: 128,
+          fit: BoxFit.cover,
+        ),
+      );
+    } else if (myImageUrl != null) {
+      return ClipOval(
+        child: Image.asset(
+          imageUrl.toString(),
           height: 128,
           width: 128,
           fit: BoxFit.cover,
@@ -145,9 +160,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                             colors: [
-                              Colors.black,
-                              Color(0xff004080),
-                            ])),
+                          Colors.black,
+                          Color(0xff004080),
+                        ])),
                     child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

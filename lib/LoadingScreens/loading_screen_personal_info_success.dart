@@ -1,19 +1,17 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:location_tracker/Settings/change_password.dart';
-import 'package:location_tracker/Settings/change_personal_info.dart';
 import 'package:location_tracker/personal_info_success.dart';
 
-class LoadingScreenPersonalInfo extends StatefulWidget {
+class LoadingScreenPersonalInfoSuccess extends StatefulWidget {
   @override
-  _LoadingScreenPersonalInfoState createState() =>
-      _LoadingScreenPersonalInfoState();
-  static const routeName = '/loading_screen_personal_info';
+  _LoadingScreenPersonalInfoSuccessState createState() =>
+      _LoadingScreenPersonalInfoSuccessState();
+  static const routeName = '/loading_screen_personal_info_success';
 }
 
-class _LoadingScreenPersonalInfoState
-    extends State<LoadingScreenPersonalInfo> {
+class _LoadingScreenPersonalInfoSuccessState
+    extends State<LoadingScreenPersonalInfoSuccess> {
   @override
   void initState() {
     super.initState();
@@ -26,7 +24,7 @@ class _LoadingScreenPersonalInfoState
   }
 
   void navigationPage() {
-    Navigator.of(context).pushReplacementNamed(ChangePersonalInfo.routeName);
+    Navigator.of(context).pushReplacementNamed(PersonalInfoSuccess.routeName);
   }
 
   @override
