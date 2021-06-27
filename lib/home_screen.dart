@@ -57,17 +57,13 @@ class _HomeScreenState extends State<HomeScreen> {
       }),
     );
 
-    print("MY TOKEN RESPONSE: " + myToken.toString());
     if (response.statusCode == 200) {
       var parsedJson = json.decode(response.body);
       myUserId = parsedJson["id"];
       imageUrl = parsedJson["image"];
       print(response.body);
-      print("MY USER ID RESPONSE: " + myUserId.toString());
-      myImageUrl =
-          "https://location.timetechri.co.uk/api/location/update/profile/" +
-              imageUrl.toString();
-      print(myImageUrl);
+      myImageUrl = "https://location.timetechri.co.uk/" + imageUrl.toString();
+      print("FINAL MY IMAGE URL: " + myImageUrl.toString());
       return SignInRequest.fromJson(json.decode(response.body));
     } else {
       throw Exception(response.body);
@@ -80,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
     print("MY USER ID INIT: " + myUserId.toString());
     print("MY TOKEN INIT: " + myToken.toString());
     if (myToken != null) {
-      Future.delayed(Duration(milliseconds: 2500), () {
+      Future.delayed(Duration(milliseconds: 500), () {
         setState(() {
           futureUserData = createRequestWithToken(
               emailController.text, passwordController.text, myToken);
@@ -89,46 +85,52 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Widget userImage() {
-    if (myToken == null) {
-      return ClipOval(
-        child: Image.asset(
-          "assets/my_location.png",
-          height: 128,
-          width: 128,
-          fit: BoxFit.cover,
-        ),
-      );
-    } else if (myToken != null && myImageUrl == null) {
-      return ClipOval(
-        child: Image.asset(
-          "assets/dummy_user.png",
-          height: 128,
-          width: 128,
-          fit: BoxFit.cover,
-        ),
-      );
-    } else if (myImageUrl != null) {
-      return ClipOval(
-        child: Image.asset(
-          imageUrl.toString(),
-          height: 128,
-          width: 128,
-          fit: BoxFit.cover,
-        ),
-      );
-    } else
-      return Center(
-        child: CircularProgressIndicator(
-          backgroundColor: Colors.blueGrey,
-          valueColor: AlwaysStoppedAnimation(Color(0xff004080)),
-          strokeWidth: 5,
-        ),
-      );
-  }
-
   @override
   Widget build(BuildContext context) {
+    var displayImage = FutureBuilder(
+        future: futureUserData,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ClipOval(
+              child: imageUrl == null
+                  ? ClipOval(
+                      child: Image.asset(
+                        "assets/dummy_user.png",
+                        height: 128,
+                        width: 128,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : Image.network(
+                      myImageUrl.toString(),
+                      // "https://www.pixsy.com/wp-content/uploads/2021/04/ben-sweet-2LowviVHZ-E-unsplash-1.jpeg",
+                      height: 128,
+                      width: 128,
+                      fit: BoxFit.cover,
+                    ),
+            );
+          } else if (snapshot.hasError) {
+            Text(
+              "ERROR OCCURRED FETCHING IMAGE!",
+              style: GoogleFonts.mcLaren(color: Colors.white),
+            );
+          } else if (myToken == null) {
+            return ClipOval(
+              child: Image.asset(
+                "assets/my_location.png",
+                height: 128,
+                width: 128,
+                fit: BoxFit.cover,
+              ),
+            );
+          }
+          return CircularProgressIndicator(
+            backgroundColor: Colors.blueGrey,
+            // valueColor: AlwaysStoppedAnimation(Color(0xff004080)),
+            valueColor: AlwaysStoppedAnimation(Colors.white),
+            strokeWidth: 5,
+          );
+        });
     return Scaffold(
         appBar: AppBar(
           title: Text("Location Tracker",
@@ -167,47 +169,44 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          userImage(),
+                          // userImage(),
+                          displayImage,
                         ],
                       ),
                     ),
                   ),
-                  // ListTile(
-                  //   title: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.start,
-                  //     children: [
-                  //       Icon(
-                  //         Icons.edit_location,
-                  //         color: Colors.white,
-                  //       ),
-                  //       SizedBox(
-                  //         width: 10.0,
-                  //       ),
-                  //       Text(
-                  //         "Share Info",
-                  //         style: GoogleFonts.mcLaren(
-                  //             textStyle:
-                  //                 TextStyle(color: Colors.white, fontSize: 18)),
-                  //       )
-                  //     ],
-                  //   ),
-                  //   onTap: () {
-                  //     if (myToken != null) {
-                  //       return Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //               builder: (BuildContext context) => ShowInfo()));
-                  //     } else
-                  //       displayDialogSignIn(context, "You are not signed in!",
-                  //           "Please sign in.");
-                  //   },
-                  // ),
-                  // Divider(
-                  //   height: 10.0,
-                  //   color: Colors.white,
-                  //   endIndent: 40.0,
-                  //   thickness: 1.0,
-                  // ),
+                  ListTile(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.login_outlined,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Text(
+                          "Sign In",
+                          style: GoogleFonts.mcLaren(
+                              textStyle:
+                                  TextStyle(color: Colors.white, fontSize: 18)),
+                        )
+                      ],
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => SignIn()));
+                    },
+                  ),
+                  Divider(
+                    height: 10.0,
+                    color: Colors.white,
+                    endIndent: 40.0,
+                    thickness: 1.0,
+                  ),
                   ListTile(
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -267,43 +266,43 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Image.asset("assets/earth.png"),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                        icon: Image.asset("assets/salesman.png"),
-                        iconSize: 64,
-                        onPressed: () {}),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.60,
-                      height: 60,
-                      child: RaisedButton(
-                        elevation: 5.0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            side: BorderSide(color: Colors.black)),
-                        child: Text(
-                          "Sign In as Sales Representative",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.lato(
-                              textStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) => SignIn()));
-                        },
-                        color: Color(0xff004080),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       IconButton(
+              //           icon: Image.asset("assets/salesman.png"),
+              //           iconSize: 64,
+              //           onPressed: () {}),
+              //       Container(
+              //         width: MediaQuery.of(context).size.width * 0.60,
+              //         height: 60,
+              //         child: RaisedButton(
+              //           elevation: 5.0,
+              //           shape: RoundedRectangleBorder(
+              //               borderRadius: BorderRadius.circular(10.0),
+              //               side: BorderSide(color: Colors.black)),
+              //           child: Text(
+              //             "Sign In as Sales Representative",
+              //             textAlign: TextAlign.center,
+              //             style: GoogleFonts.lato(
+              //                 textStyle: TextStyle(
+              //                     color: Colors.white,
+              //                     fontSize: 18,
+              //                     fontWeight: FontWeight.bold)),
+              //           ),
+              //           onPressed: () {
+              //             Navigator.push(
+              //                 context,
+              //                 MaterialPageRoute(
+              //                     builder: (BuildContext context) => SignIn()));
+              //           },
+              //           color: Color(0xff004080),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

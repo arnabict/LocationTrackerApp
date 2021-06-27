@@ -144,7 +144,7 @@ class _SignInState extends State<SignIn> {
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.35,
+                height: MediaQuery.of(context).size.height * (1 / 3),
                 width: MediaQuery.of(context).size.width * 0.90,
                 padding: EdgeInsets.all(15),
                 child: Form(
