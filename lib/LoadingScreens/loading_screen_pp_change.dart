@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:location_tracker/Settings/change_password.dart';
 import 'package:location_tracker/Settings/change_profile_picture.dart';
 
 class LoadingScreenPPChange extends StatefulWidget {

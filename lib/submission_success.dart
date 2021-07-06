@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_home_screen.dart';
-import 'package:location_tracker/home_screen.dart';
 
 class SubmissionSuccess extends StatelessWidget {
   static const routeName = '/submission_success';

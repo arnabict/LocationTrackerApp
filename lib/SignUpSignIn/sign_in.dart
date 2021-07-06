@@ -4,8 +4,6 @@ import 'package:location_tracker/LoadingScreens/loading_screen_home_screen.dart'
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:location_tracker/LoadingScreens/loading_screen_show_info.dart';
-
 //Global
 final TextEditingController emailController = TextEditingController();
 final TextEditingController passwordController = TextEditingController();

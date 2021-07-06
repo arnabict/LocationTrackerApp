@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:location_tracker/LoadingScreens/loading_screen_password_change_success.dart';
-import 'package:location_tracker/LoadingScreens/loading_screen_personal_info.dart';
 import 'package:location_tracker/LoadingScreens/loading_screen_personal_info_success.dart';
 import 'package:location_tracker/SignUpSignIn/sign_in.dart';
 import 'dart:convert';
